@@ -6,21 +6,42 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
-        body { background-color: #0c0c0c; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        body { background-color: #0c0c0c; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; scroll-behavior: smooth; }
         
-        /* Заглавие в стила на началната страница */
+        /* Меню (Навигация) */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            border-bottom: 2px solid #ffffff;
+        }
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: #d4af37; }
+
+        /* Заглавие - ВЕЧЕ Е БЯЛО */
         h1 { 
             text-align: center; 
-            color: #d4af37; 
+            color: #ffffff; 
             font-family: 'Architects Daughter', cursive;
-            font-size: 3em;
+            font-size: 3.5em;
             text-transform: uppercase; 
             letter-spacing: 5px; 
             margin-bottom: 40px; 
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         
-        /* Бяла линия и бяло за заглавията на клетките */
+        /* Секции и Клетки */
         .cell-container { margin-bottom: 50px; border-left: 4px solid #ffffff; padding-left: 20px; }
         .cell-title { color: #ffffff; font-size: 1.8em; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
 
@@ -45,29 +66,57 @@
         .monster-img:not([src]) { display: none; } 
 
         .monster-info { padding: 15px; flex-grow: 1; }
-        
-        /* Имената на съществата вече са бели */
         .monster-name { display: block; font-size: 1.3em; color: #ffffff; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px; }
 
-        /* Статистики с добавен К (Късмет) */
         .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .stat-box { background: #262626; padding: 5px 10px; border-radius: 4px; font-size: 0.85em; border: 1px solid #333; }
         .stat-label { color: #888; margin-right: 5px; font-weight: bold; }
 
         .special-note { color: #ff4444; font-size: 0.85em; margin-top: 10px; font-style: italic; border-top: 1px dashed #444; padding-top: 5px; }
+
+        /* Бутон за връщане горе */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #ffffff;
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 20px;
+            display: none; /* Скрит по подразбиране */
+            box-shadow: 0 4px 10px rgba(255,255,255,0.2);
+            z-index: 100;
+        }
+        #backToTop:hover { background: #d4af37; }
     </style>
 </head>
 <body>
 
+    <nav>
+        <a href="index.html">Начало</a>
+        <a href="bestiary.html">Бестиарий</a>
+        <a href="#cell1">Хора</a>
+        <a href="#cell2">Животни</a>
+        <a href="#cell3">Фантастични</a>
+        <a href="#cell4">Богове</a>
+    </nav>
+
     <h1>Зверилник</h1>
 
     <div id="bestiary-content"></div>
+
+    <button id="backToTop" onclick="window.scrollTo(0,0)">↑</button>
 
 <script>
     const imgPath = "pages/"; 
 
     const data = [
         {
+            id: "cell1",
             cell: "Клетка 1: Хора",
             monsters: [
                 { name: "Селянин", u: 2, z: 7, j: 12, k: 5, op: 31 },
@@ -83,6 +132,7 @@
             ]
         },
         {
+            id: "cell2",
             cell: "Клетка 2: Животни",
             monsters: [
                 { name: "Куче", u: 4, z: 10, j: 10, k: 6, op: 38 },
@@ -99,6 +149,7 @@
             ]
         },
         {
+            id: "cell3",
             cell: "Клетка 3: Фантастични и митологични същества",
             monsters: [
                 { name: "Гнол", u: 2, z: 8, j: 9, k: 4, op: 19 },
@@ -161,7 +212,8 @@
             ]
         },
         {
-            cell: "Клетка 4: Езически богове и християнски образи",
+            id: "cell4",
+            cell: "Клетка 4: Богове и образи",
             monsters: [
                 { name: "Архангел", u: 45, z: 15, j: 100, k: 30, op: 175 },
                 { name: "Ангел", u: 21, z: 12, j: 50, k: 25, op: 93 },
@@ -175,6 +227,7 @@
     data.forEach(section => {
         const sectionEl = document.createElement('div');
         sectionEl.className = 'cell-container';
+        sectionEl.id = section.id; // Добавяме ID за навигацията
         sectionEl.innerHTML = `<div class="cell-title">${section.cell}</div>`;
         
         const gridEl = document.createElement('div');
@@ -206,6 +259,16 @@
         sectionEl.appendChild(gridEl);
         contentDiv.appendChild(sectionEl);
     });
+
+    // Логика за бутона "Нагоре"
+    window.onscroll = function() {
+        const btn = document.getElementById("backToTop");
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            btn.style.display = "block";
+        } else {
+            btn.style.display = "none";
+        }
+    };
 </script>
 
 </body>
