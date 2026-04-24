@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Зандан - Архив</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 20px; }
+        
+        nav { margin-bottom: 40px; border-bottom: 1px solid #333; padding-bottom: 20px; }
+        nav a { color: #fff; text-decoration: none; margin: 0 15px; text-transform: uppercase; letter-spacing: 1px; }
+        nav a:hover { color: #d4af37; }
+
+        h1 { font-family: 'Architects Daughter', cursive; color: #ffffff; font-size: 3em; }
+
+        .download-box {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px dashed #d4af37;
+            margin: 40px auto;
+            max-width: 500px;
+        }
+
+        .btn-download {
+            background: #d4af37;
+            color: #000;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn-download:hover { background: #fff; transform: scale(1.05); }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .archive-item img { width: 100%; border: 1px solid #333; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Начало</a>
+        <a href="manual.html">Ръководство</a>
+        <a href="bestiary.html">Бестиарий</a>
+        <a href="archive.html">Архив</a>
+    </nav>
+
+    <h1>Архив</h1>
+    <p>Тук можете да разгледате оригиналните сканирани страници и да изтеглите пълното ръководство.</p>
+
+    <div class="download-box">
+        <h3>Пълно ръководство (PDF)</h3>
+        <p>Всички 30 страници в един файл за принтиране.</p>
+        <a href="Zandan_Manual.pdf" download class="btn-download">ИЗТЕГЛИ PDF</a>
+    </div>
+
+    <div class="archive-grid" id="grid"></div>
+
+    <script>
+        const grid = document.getElementById('grid');
+        for(let i=1; i<=30; i++) {
+            grid.innerHTML += `<div class="archive-item"><img src="${i}.jpg" alt="Стр ${i}"><p>Стр. ${i}</p></div>`;
+        }
+    </script>
+</body>
+</html>
