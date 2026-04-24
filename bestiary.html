@@ -7,7 +7,6 @@
         body { background-color: #0c0c0c; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
         h1 { text-align: center; color: #ff0000; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; }
         
-        /* Стил за Клетките */
         .cell-container { margin-bottom: 50px; border-left: 4px solid #ff0000; padding-left: 20px; }
         .cell-title { color: #ffcc00; font-size: 1.8em; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
 
@@ -28,7 +27,9 @@
         }
         .monster-card:hover { transform: translateY(-5px); }
 
-        .monster-img { width: 100%; height: auto; display: block; border-bottom: 2px solid #333; }
+        /* Премахва черния прозорец, ако няма картинка */
+        .monster-img { width: 100%; height: auto; display: block; border-bottom: 2px solid #333; background: #1a1a1a; }
+        .monster-img:not([src]) { display: none; } 
 
         .monster-info { padding: 15px; flex-grow: 1; }
         .monster-name { display: block; font-size: 1.3em; color: #ffcc00; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px; }
@@ -48,6 +49,9 @@
     <div id="bestiary-content"></div>
 
 <script>
+    // Пътят до папката с картинки в GitHub
+    const imgPath = "pages/"; 
+
     const data = [
         {
             cell: "Клетка 1: Хора",
@@ -61,7 +65,7 @@
                 { name: "Елитен легионер", u: 11, z: 11, j: 28, op: 55, p: 19 },
                 { name: "Наемен убиец", u: 10, z: 11, j: 20, op: 55, p: 19 },
                 { name: "Рицар", u: 11, z: 14, j: 28, op: 61, p: 19 },
-                { name: "Черен Паладин", u: 10, z: 14, j: 30, op: 68, p: 19, img: "pages/CherenPaladin.png" }
+                { name: "Черен Паладин", u: 10, z: 14, j: 30, op: 68, p: 19, img: "CherenPaladin.png" }
             ]
         },
         {
@@ -71,7 +75,7 @@
                 { name: "Вълк", u: 6, z: 15, j: 12, op: 47, p: 20 },
                 { name: "Кафява мечка", u: 9, z: 10, j: 20, op: 48, p: 20 },
                 { name: "Мечка на Брейг", u: 11, z: 8, j: 23, op: 48, p: 20 },
-                { name: "Макрид", u: 10, z: 10, j: 20, op: 54, p: 20, img: "pages/Makrid.jpg" },
+                { name: "Макрид", u: 10, z: 10, j: 20, op: 54, p: 20, img: "Makrid.jpg" },
                 { name: "Боа", u: 6, z: 7, j: 17, op: 38, p: 20 },
                 { name: "Кобра", u: 7, z: 14, j: 2, op: 44, p: 21, spec: "+5 отрова" },
                 { name: "Бик", u: 12, z: 4, j: 20, op: 42, p: 21 },
@@ -98,8 +102,8 @@
                 { name: "Мрачна фея", u: 5, z: 7, j: 12, op: 34, p: 23 },
                 { name: "Горска фея", u: 1, z: 14, j: 8, op: 35, p: 23 },
                 { name: "Караконджул", u: 6, z: 8, j: 12, op: 34, p: 23 },
-                { name: "Мукалец", u: 5, z: 7, j: 10, op: 35, p: 23, img: "pages/Mukalets.png" },
-                { name: "Орк", u: 6, z: 8, j: 18, op: 34, p: 23, img: "pages/Orc.jpg" },
+                { name: "Мукалец", u: 5, z: 7, j: 10, op: 35, p: 23, img: "Mukalets.png" },
+                { name: "Орк", u: 6, z: 8, j: 18, op: 34, p: 23, img: "Orc.jpg" },
                 { name: "Бехолдър", u: 9, z: 8, j: 15, op: 41, p: 23 },
                 { name: "Огре", u: 10, z: 4, j: 30, op: 49, p: 24 },
                 { name: "Вампир", u: 4, z: 13, j: 15, op: 48, p: 24 },
@@ -110,10 +114,10 @@
                 { name: "Сив", u: 10, z: 15, j: 10, op: 43, p: 24 },
                 { name: "Мракохвът", u: 17, z: 8, j: 28, op: 65, p: 24 },
                 { name: "Полуръст", u: 3, z: 12, j: 10, op: 43, p: 24 },
-                { name: "Джудже ренегат", u: 10, z: 7, j: 16, op: 38, p: 24, img: "pages/DjudjeRenegat.png" },
+                { name: "Джудже ренегат", u: 10, z: 7, j: 16, op: 38, p: 24, img: "DjudjeRenegat.png" },
                 { name: "Мрачен елф", u: 7, z: 16, j: 20, op: 53, p: 24, spec: "Сила: 2" },
-                { name: "Трол", u: 8, z: 5, j: 28, op: 44, p: 24, img: "pages/Troll.jpg" },
-                { name: "Токен", u: 12, z: 16, j: 20, op: 69, p: 25, img: "pages/Token.png", spec: "Атака с мисъл" },
+                { name: "Трол", u: 8, z: 5, j: 28, op: 44, p: 24, img: "Troll.jpg" },
+                { name: "Токен", u: 12, z: 16, j: 20, op: 69, p: 25, img: "Token.png", spec: "Атака с мисъл" },
                 { name: "Гигант", u: 10, z: 8, j: 22, op: 46, p: 25 },
                 { name: "Цербер", u: 10, z: 12, j: 18, op: 53, p: 25 },
                 { name: "Голем", u: 12, z: 9, j: 30, op: 65, p: 25 },
@@ -130,7 +134,7 @@
                 { name: "Магичен дракон", u: 15, z: 12, j: 35, op: 92, p: 26, spec: "Сила: 17" },
                 { name: "Черен дракон", u: 26, z: 12, j: 60, op: 103, p: 26 },
                 { name: "Дяволон", u: 23, z: 13, j: 55, op: 106, p: 26, spec: "Полудемон" },
-                { name: "Син Афран", u: 42, z: 17, j: 90, op: 159, p: 26, img: "pages/SinAfran.jpg" },
+                { name: "Син Афран", u: 42, z: 17, j: 90, op: 159, p: 26, img: "SinAfran.jpg" },
                 { name: "Воден елементал", u: 11, z: 13, j: 21, op: 56, p: 26 },
                 { name: "Въздушен ел.", u: 10, z: 14, j: 20, op: 56, p: 26 },
                 { name: "Огнен ел.", u: 15, z: 12, j: 29, op: 61, p: 26 },
@@ -139,7 +143,7 @@
                 { name: "Демон", u: 16, z: 15, j: 35, op: 78, p: 26 },
                 { name: "Дендроид", u: 32, z: 10, j: 50, op: 94, p: 27 },
                 { name: "Хидра", u: 30, z: 12, j: 60, op: 112, p: 27 },
-                { name: "Дракон", u: 12, z: 20, j: 300, op: 500, p: 28, img: "pages/Drakon.jpg" }
+                { name: "Дракон", u: 12, z: 20, j: 300, op: 500, p: 28, img: "Drakon.jpg" }
             ]
         },
         {
@@ -157,7 +161,6 @@
     data.forEach(section => {
         const sectionEl = document.createElement('div');
         sectionEl.className = 'cell-container';
-        
         sectionEl.innerHTML = `<div class="cell-title">${section.cell}</div>`;
         
         const gridEl = document.createElement('div');
@@ -167,11 +170,11 @@
             const card = document.createElement('div');
             card.className = 'monster-card';
             
-            // Ако има картинка, създаваме таг, ако не - нищо
-            const imgTag = m.img ? `<img src="${m.img}" class="monster-img" alt="${m.name}">` : '';
+            // Ако има картинка, слагаме пътя до папката 'pages/'
+            const imgHtml = m.img ? `<img src="${imgPath}${m.img}" class="monster-img" alt="${m.name}">` : '';
 
             card.innerHTML = `
-                ${imgTag}
+                ${imgHtml}
                 <div class="monster-info">
                     <strong class="monster-name">${m.name}</strong>
                     <div class="stats">
