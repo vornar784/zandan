@@ -42,16 +42,27 @@
 
 <script>
     const monsters = [
-        { name: "Орк", img: "Orc.jpg", u: 4, z: 12, j: 40, op: 12 },
-        { name: "Трол", img: "Troll.jpg", u: 6, z: 14, j: 80, op: 30 },
-        { name: "Дракон", img: "Drakon.jpg", u: 12, z: 20, j: 300, op: 500 },
-        { name: "Черен Паладин", img: "CherenPaladin.jpg", u: 9, z: 17, j: 150, op: 100 },
-        { name: "Мукалец", img: "Mukalets.jpg", u: 5, z: 12, j: 45, op: 15 },
-        { name: "Джудже Ренегат", img: "DjudjeRenegat.jpg", u: 5, z: 15, j: 50, op: 20 },
-        { name: "Токен", img: "Token.jpg", u: 7, z: 14, j: 65, op: 40 },
-        { name: "Имп", img: "Imp.jpg", u: 3, z: 10, j: 20, op: 8 },
-        { name: "Макрид", img: "Makrid.jpg", u: 8, z: 15, j: 90, op: 60 },
-        { name: "Син Афран", img: "SinAfran.jpg", u: 6, z: 13, j: 70, op: 35 }
+        // Същества с рисунки (в папка pages/)
+        { name: "Орк", img: "pages/Orc.jpg", u: 4, z: 12, j: 40, op: 12 },
+        { name: "Трол", img: "pages/Troll.jpg", u: 6, z: 14, j: 80, op: 30 },
+        { name: "Дракон", img: "pages/Drakon.jpg", u: 12, z: 20, j: 300, op: 500 },
+        { name: "Черен Паладин", img: "pages/CherenPaladin.jpg", u: 9, z: 17, j: 150, op: 100 },
+        { name: "Мукалец", img: "pages/Mukalets.jpg", u: 5, z: 12, j: 45, op: 15 },
+        { name: "Джудже Ренегат", img: "pages/DjudjeRenegat.jpg", u: 5, z: 15, j: 50, op: 20 },
+        { name: "Токен", img: "pages/Token.jpg", u: 7, z: 14, j: 65, op: 40 },
+        { name: "Имп", img: "pages/Imp.jpg", u: 3, z: 10, j: 20, op: 8 },
+        { name: "Макрид", img: "pages/Makrid.jpg", u: 8, z: 15, j: 90, op: 60 },
+        { name: "Син Афран", img: "pages/SinAfran.jpg", u: 6, z: 13, j: 70, op: 35 },
+        
+        // Същества от тетрадката (без отделни рисунки)
+        { name: "Плъх", img: null, u: 1, z: 5, j: 5, op: 1 },
+        { name: "Гигантски плъх", img: null, u: 2, z: 8, j: 15, op: 3 },
+        { name: "Скелет", img: null, u: 3, z: 10, j: 25, op: 6 },
+        { name: "Зомби", img: null, u: 2, z: 7, j: 35, op: 8 },
+        { name: "Гоблин", img: null, u: 3, z: 11, j: 20, op: 10 },
+        { name: "Минотавър", img: null, u: 7, z: 15, j: 100, op: 50 },
+        { name: "Окото", img: null, u: 8, z: 15, j: 120, op: 70 },
+        { name: "Призрак", img: null, u: 5, z: 18, j: 60, op: 60 }
     ];
 
     const grid = document.getElementById('monster-grid');
@@ -59,8 +70,14 @@
     monsters.forEach(m => {
         const card = document.createElement('div');
         card.className = 'monster-card';
+        
+        // Ако няма картинка, слагаме стилизиран текст или икона
+        const imageHtml = m.img 
+            ? `<img src="${m.img}" class="monster-img" alt="${m.name}">`
+            : `<div class="monster-img" style="display:flex; align-items:center; justify-content:center; background:#111; color:#333; font-size:3em;">?</div>`;
+
         card.innerHTML = `
-            <img src="images/${m.img}" class="monster-img" alt="${m.name}" onerror="this.src='images/placeholder.jpg'">
+            ${imageHtml}
             <div class="monster-info">
                 <strong class="monster-name">${m.name}</strong>
                 <div class="stats">
