@@ -12,30 +12,28 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: black; /* Основата винаги е черна */
+            background-color: black;
             font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
             color: white;
         }
 
-        /* ЕФЕКТЪТ НА ВЛИЗАНЕ - ИНТРО КАРТИНКА */
+        /* ИНТРО КАРТИНКА */
         #dungeon-intro {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('images/intro.jpg'); /* Пътят е към папката images */
+            background-image: url('images/intro.jpg');
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
             z-index: 5;
-            
-            /* Анимация: мащабиране и пълно изчезване в края */
             animation: immersion 6s ease-in forwards;
         }
 
-        /* СЛОЙ ЗА ИНТЕРФЕЙСА (ЛОГО И МЕНЮ) */
+        /* ИНТЕРФЕЙС */
         .ui-layer {
             position: relative;
             z-index: 10;
@@ -45,16 +43,15 @@
             justify-content: center;
             height: 100vh;
             text-align: center;
-            opacity: 0; /* Първоначално скрит */
-            /* Появява се след като интрото свърши (на 6-тата секунда) */
+            opacity: 0;
             animation: showInterface 2s ease-out 6.5s forwards;
         }
 
         #logo {
             max-width: 500px;
             width: 85%;
-            /* Инвертираме рисунката, за да е бяла на черен фон */
-            filter: invert(1) drop-shadow(0 0 20px rgba(255,255,255,0.4));
+            /* ПРЕМАХНАТО ХАЛО: Оставихме само инвертирането на цветовете */
+            filter: invert(1); 
             margin-bottom: 20px;
         }
 
@@ -103,23 +100,10 @@
             color: #000;
         }
 
-        /* ДЕФИНИЦИЯ НА АНИМАЦИИТЕ */
         @keyframes immersion {
-            0% { 
-                transform: scale(1); 
-                opacity: 1; 
-                filter: brightness(1); 
-            }
-            80% { 
-                transform: scale(1.2); 
-                opacity: 1; 
-                filter: brightness(0.8);
-            }
-            100% { 
-                transform: scale(1.3); 
-                opacity: 0; /* Тук всичко става черно */
-                filter: brightness(0);
-            }
+            0% { transform: scale(1); opacity: 1; filter: brightness(1); }
+            80% { transform: scale(1.2); opacity: 1; filter: brightness(0.8); }
+            100% { transform: scale(1.3); opacity: 0; filter: brightness(0); }
         }
 
         @keyframes showInterface {
