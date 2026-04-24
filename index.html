@@ -2,94 +2,100 @@
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <title>ЗАНДАН - Начало</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зандан - Начало</title>
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: black; color: white; font-family: 'Courier New', serif; overflow: hidden; }
-        #viewport { position: fixed; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: black; }
+        @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
-        /* ВРАТАТА */
-       #dungeon-entry {
-    position: absolute; 
-    width: 100%; 
-    height: 100%;
-    /* Пробваме всички възможни пътища едновременно */
-    background-image: url('images/intro.jpg');
-    background-color: black; /* Ако няма картинка, поне да е черно */
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    animation: walkIntoDungeon 6s forwards;
-    filter: grayscale(1) contrast(1.2);
-    opacity: 0;
-}
-        /* ЛОГОТО (ДРАКОНА) */
-        #logo-container {
-            position: absolute; opacity: 0;
-            animation: showLogo 4s 5s forwards;
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             text-align: center;
-            z-index: 10;
-        }
-        #logo-container img { 
-            max-width: 300px; 
-            /* Ефектът, който прави белия лист прозрачен и черния молив - бял */
-            filter: invert(1) grayscale(1) contrast(1.5);
-            mix-blend-mode: screen;
         }
 
-        #main-site { display: none; padding: 50px; text-align: center; animation: fadeIn 2s; }
-        nav { border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
-        nav a { color: #888; text-decoration: none; margin: 0 15px; text-transform: uppercase; letter-spacing: 2px; }
-
-        #skip-btn { position: fixed; bottom: 20px; right: 20px; font-size: 10px; color: #444; cursor: pointer; z-index: 100; border: 1px solid #222; padding: 5px; }
-
-        @keyframes walkIntoDungeon {
-            0% { transform: scale(1); opacity: 0; }
-            15% { opacity: 1; }
-            85% { transform: scale(2); opacity: 1; filter: blur(0px); }
-            100% { transform: scale(2.8); opacity: 0; filter: blur(15px); }
+        h1 {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 4em;
+            margin-bottom: 10px;
+            letter-spacing: 8px;
+            color: #ffffff;
+            text-transform: uppercase;
         }
-        @keyframes showLogo {
-            0% { opacity: 0; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(1.1); }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #888;
+            margin-bottom: 50px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 300px;
+        }
+
+        .menu-btn {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            padding: 15px 30px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .menu-btn:hover {
+            background: #ffffff;
+            color: #000000;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Специален акцент за Архива */
+        .btn-archive {
+            border-color: #d4af37;
+            color: #d4af37;
+        }
+        .btn-archive:hover {
+            background: #d4af37;
+            border-color: #d4af37;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.8em;
+            color: #444;
+        }
     </style>
 </head>
 <body>
 
-    <div id="intro-sequence">
-        <div id="viewport">
-            <div id="dungeon-entry"></div>
-            <div id="logo-container">
-                <img src="images/logo.png" onerror="this.src='logo.png'">
-                <h2 style="letter-spacing: 15px; margin-top: 20px;">ЗАНДАН</h2>
-            </div>
-        </div>
-        <div id="skip-btn" onclick="enterSite()">SKIP INTRO</div>
+    <h1>ЗАНДАН</h1>
+    <div class="subtitle">Приключенска настолна игра</div>
+
+    <div class="menu-container">
+        <a href="manual.html" class="menu-btn">Ръководство (Текст)</a>
+        <a href="bestiary.html" class="menu-btn">Бестиарий</a>
+        <a href="archive.html" class="menu-btn btn-archive">Архив (Оригинални страници)</a>
     </div>
 
-    <div id="main-site">
-        <nav>
-    <a href="index.html">Начало</a>
-    <a href="manual.html">Ръководство</a>
-    <a href="bestiary.html">Бестиарий</a>
-    <a href="hero.html">Герой</a>
-        </nav>
-        <h1 style="font-size: 4em; letter-spacing: 10px; margin-top: 10vh;">ЗАНДАН</h1>
-        <p style="color: #666; font-style: italic;">Дигитализиран архив на една легенда</p>
-    </div>
+    <footer>
+        &copy; 2026 Проект Зандан. Всички права запазени.
+    </footer>
 
-    <script>
-        function enterSite() {
-            document.getElementById('intro-sequence').style.display = 'none';
-            const main = document.getElementById('main-site');
-            main.style.display = 'block';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Автоматично влизане след 10 секунди
-        setTimeout(enterSite, 10000);
-    </script>
 </body>
 </html>
