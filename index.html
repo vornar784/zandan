@@ -2,75 +2,92 @@
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <title>ЗАНДАН</title>
+    <title>ЗАНДАН - Начало</title>
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #0a0a0a; color: #eee; font-family: 'Courier New', serif; overflow: hidden; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: black; color: white; font-family: 'Courier New', serif; overflow: hidden; }
         
-        /* Стил за интрото */
-        #intro { position: fixed; width: 100%; height: 100%; z-index: 1000; display: flex; justify-content: center; align-items: center; background: black; cursor: pointer; }
-        #intro img { max-width: 100%; max-height: 100%; transition: all 3s ease; filter: grayscale(1) contrast(1.2); }
-        #intro.zoom img { transform: scale(2); opacity: 0; }
+        /* Цялата анимация се случва тук */
+        #viewport { position: fixed; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
 
-        /* Стил за логото (твоята рисунка) */
-        #logo-fade { position: fixed; width: 100%; height: 100%; z-index: 900; display: none; justify-content: center; align-items: center; background: black; opacity: 0; transition: opacity 2s; }
-        #logo-fade img { 
-            max-width: 80%; 
-            filter: invert(1) grayscale(1) contrast(1.5); /* Това ще направи белия лист черен, а черния молив - бял! */
+        /* Кадър 1: Вратата, която се приближава */
+        #dungeon-entry {
+            position: absolute; width: 100%; height: 100%;
+            background: url('intro.jpg') no-repeat center center;
+            background-size: cover;
+            animation: walkIntoDungeon 6s forwards;
+            filter: grayscale(1) contrast(1.2);
+        }
+
+        /* Кадър 2: Логото (Дракона) */
+        #logo-container {
+            position: absolute; opacity: 0;
+            animation: showLogo 4s 5s forwards;
+            text-align: center;
+        }
+        #logo-container img { 
+            max-width: 300px; 
+            filter: invert(1) grayscale(1) contrast(1.5); /* Прави снимката на бял лист да изглежда като бяло лого на черен фон */
             mix-blend-mode: screen;
         }
 
-        #main-content { padding: 50px; display: none; text-align: center; animation: fadeIn 3s; }
+        /* Основни секции */
+        #main-site { display: none; padding: 50px; text-align: center; animation: fadeIn 2s; }
         nav { border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
-        nav a { color: #888; text-decoration: none; margin: 0 15px; text-transform: uppercase; letter-spacing: 2px; }
-        nav a:hover { color: #fff; }
+        nav a { color: #888; text-decoration: none; margin: 0 15px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9em; }
+        nav a:hover { color: #fff; border-bottom: 1px solid white; }
+
+        /* АНИМАЦИИ */
+        @keyframes walkIntoDungeon {
+            0% { transform: scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            80% { transform: scale(1.8); opacity: 1; filter: grayscale(1) blur(0px); }
+            100% { transform: scale(2.5); opacity: 0; filter: blur(10px); }
+        }
+
+        @keyframes showLogo {
+            0% { opacity: 0; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.1); }
+        }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div id="intro" onclick="startIntro()">
-        <img src="intro.jpg" onerror="this.src='https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?auto=format&fit=crop&w=1000&q=80'">
-        <div style="position:absolute; bottom:15%; letter-spacing:5px; font-size:14px; color:white;">КЛИКНИ, ЗА ДА ПРИСТЪПИШ</div>
+    <div id="intro-sequence">
+        <div id="viewport">
+            <div id="dungeon-entry"></div>
+            <div id="logo-container">
+                <img src="logo.png">
+                <h2 style="letter-spacing: 15px; margin-top: 20px;">ЗАНДАН</h2>
+            </div>
+        </div>
     </div>
 
-    <div id="logo-fade">
-        <img src="logo.png">
-    </div>
-
-    <div id="main-content">
+    <div id="main-site">
         <nav>
             <a href="#">Начало</a>
             <a href="#">Правила</a>
             <a href="#">Бестиарий</a>
             <a href="#">Галерия</a>
         </nav>
-        <h1 style="font-size: 4em; letter-spacing: 10px;">ЗАНДАН</h1>
-        <p style="color: #666;">Дигитален архив на една легенда</p>
+        <h1 style="font-size: 4em; letter-spacing: 10px; margin-top: 10vh;">ЗАНДАН</h1>
+        <p style="color: #666; font-style: italic;">Ученически проект от златните години</p>
+        <div style="margin-top: 50px; border: 1px dashed #444; padding: 20px; display: inline-block;">
+            <p>Очаквайте скоро: Дигитализираните страници от тетрадката.</p>
+        </div>
     </div>
 
     <script>
-        function startIntro() {
-            const intro = document.getElementById('intro');
-            const logoFade = document.getElementById('logo-fade');
-            const mainContent = document.getElementById('main-content');
-
-            intro.classList.add('zoom');
-
-            setTimeout(() => {
-                intro.style.display = 'none';
-                logoFade.style.display = 'flex';
-                setTimeout(() => { logoFade.style.opacity = 1; }, 100);
-            }, 2500);
-
-            setTimeout(() => {
-                logoFade.style.opacity = 0;
-                setTimeout(() => {
-                    logoFade.style.display = 'none';
-                    mainContent.style.display = 'block';
-                    document.body.style.overflow = 'auto';
-                }, 2000);
-            }, 6000);
-        }
+        // След 10 секунди (когато свършат анимациите), покажи сайта
+        setTimeout(() => {
+            document.getElementById('intro-sequence').style.display = 'none';
+            const main = document.getElementById('main-site');
+            main.style.display = 'block';
+            document.body.style.overflow = 'auto';
+        }, 10000);
     </script>
+
 </body>
 </html>
