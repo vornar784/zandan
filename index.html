@@ -7,60 +7,79 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Segoe UI', sans-serif;
+        body, html {
             margin: 0;
-            height: 100vh;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* Ефектът на влизане в подземието */
+        #dungeon-entry {
+            position: absolute; 
+            width: 100%; 
+            height: 100%;
+            background-image: url('intro.jpg'); /* Промени на 'images/intro.jpg', ако е в папка */
+            background-color: black;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            filter: grayscale(1) contrast(1.2);
+            opacity: 0;
+            animation: walkIntoDungeon 8s ease-in-out forwards;
+            z-index: 1;
+        }
+
+        /* Логото и менюто */
+        .ui-layer {
+            position: relative;
+            z-index: 10;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            height: 100%;
             text-align: center;
-            overflow: hidden;
-            /* Лека анимация на фона за дълбочина */
-            background: radial-gradient(circle at center, #111 0%, #000 70%);
+            background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
         }
 
-        /* Контейнер за анимацията на логото */
-        .intro-container {
+        #logo {
+            max-width: 500px;
+            width: 80%;
             opacity: 0;
-            transform: scale(0.8);
-            animation: emerge 2.5s ease-out forwards;
-        }
-
-        h1 {
-            font-family: 'Architects Daughter', cursive;
-            font-size: clamp(3.5em, 12vw, 6em);
-            margin: 0;
-            letter-spacing: 15px;
-            text-transform: uppercase;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            transform: scale(0.9);
+            animation: logoEmerge 4s ease-out 3s forwards;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
+            margin-bottom: 20px;
         }
 
         .subtitle {
+            font-family: 'Architects Daughter', cursive;
             color: #888;
             letter-spacing: 5px;
             text-transform: uppercase;
-            margin-bottom: 50px;
-            font-size: 1em;
+            font-size: 1.2em;
             opacity: 0;
-            animation: fadeIn 2s ease-out 1.5s forwards;
+            animation: fadeIn 2s ease-out 5s forwards;
+            margin-bottom: 40px;
         }
 
-        /* Меню с бутони */
+        /* Менюто */
         .menu {
             display: flex;
             flex-direction: column;
             gap: 15px;
             width: 280px;
             opacity: 0;
-            animation: fadeIn 1.5s ease-out 2.5s forwards;
+            animation: fadeIn 1.5s ease-out 6s forwards;
         }
 
         .btn {
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             color: #fff;
             text-decoration: none;
             padding: 15px;
@@ -68,19 +87,18 @@
             letter-spacing: 2px;
             font-size: 0.85em;
             transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
         }
 
         .btn:hover {
             background: #fff;
             color: #000;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
             border-color: #fff;
             transform: translateY(-2px);
         }
 
-        /* Златен бутон за Архива */
         .btn-gold {
             border-color: rgba(212, 175, 55, 0.5);
             color: #d4af37;
@@ -89,51 +107,42 @@
         .btn-gold:hover {
             background: #d4af37;
             color: #000;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-            border-color: #d4af37;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
         }
 
-        /* Дефиниране на анимациите */
-        @keyframes emerge {
-            0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        /* АНИМАЦИИ */
+        @keyframes walkIntoDungeon {
+            0% { opacity: 0; transform: scale(1); filter: grayscale(1) blur(10px); }
+            20% { opacity: 1; filter: grayscale(0.5) blur(0px); }
+            100% { opacity: 0.6; transform: scale(1.15); filter: grayscale(0.2) contrast(1.3); }
+        }
+
+        @keyframes logoEmerge {
+            0% { opacity: 0; transform: scale(0.8); filter: brightness(0); }
+            100% { opacity: 1; transform: scale(1); filter: brightness(1); }
         }
 
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
-        /* Частици или прах (опционално за атмосфера) */
-        .dust {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            background: transparent;
-            z-index: -1;
-        }
     </style>
 </head>
 <body>
 
-    <div class="intro-container">
-        <h1>ЗАНДАН</h1>
+    <div id="dungeon-entry"></div>
+
+    <div class="ui-layer">
+        <img src="logo.png" id="logo" alt="ЗАНДАН Лого">
+        
+        <div class="subtitle">Приключенска настолна игра</div>
+
+        <div class="menu">
+            <a href="manual.html" class="btn">Ръководство</a>
+            <a href="bestiary.html" class="btn">Бестиарий</a>
+            <a href="archive.html" class="btn btn-gold">Архив (Оригинали)</a>
+        </div>
     </div>
-    
-    <div class="subtitle">Приключенска настолна игра</div>
-
-    <div class="menu">
-        <a href="manual.html" class="btn">Ръководство</a>
-        <a href="bestiary.html" class="btn">Бестиарий</a>
-        <a href="archive.html" class="btn btn-gold">Архив (Оригинали)</a>
-    </div>
-
-    <div class="dust"></div>
-
-    <script>
-        // Можеш да добавиш лек ефект на следене на мишката тук по-късно
-        console.log("Зандан се зарежда...");
-    </script>
 
 </body>
 </html>
