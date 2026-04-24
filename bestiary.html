@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЗАНДАН - Бестиарий</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: 'Segoe UI', serif; background-color: #1a1a1a; color: #e0e0e0; margin: 0; }
+        nav { background: #333; padding: 15px; text-align: center; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+        
+        .container { max-width: 1000px; margin: 20px auto; padding: 20px; }
+        h1 { text-align: center; color: #cc0000; text-transform: uppercase; letter-spacing: 2px; }
+
+        .monster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .monster-card { background: #2a2a2a; border: 1px solid #444; border-radius: 10px; overflow: hidden; transition: transform 0.3s; cursor: pointer; }
+        .monster-card:hover { transform: scale(1.03); border-color: #cc0000; }
+        
+        .monster-img { width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid #444; background: #000; }
+        .monster-info { padding: 15px; }
+        .monster-name { font-size: 1.4em; color: #ffcc00; margin-bottom: 10px; display: block; }
+        
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 0.9em; }
+        .stat-box { background: #333; padding: 5px 10px; border-radius: 4px; }
+        .stat-label { color: #888; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Начало</a>
+    <a href="manual.html">Ръководство</a>
+    <a href="bestiary.html">Бестиарий</a>
+</nav>
+
+<div class="container">
+    <h1>Зверилник</h1>
+    <div class="monster-grid" id="monster-grid">
+        </div>
+</div>
+
+<script>
+    const monsters = [
+        { name: "Орк", img: "Orc.jpg", u: 4, z: 12, j: 40, op: 12 },
+        { name: "Трол", img: "Troll.jpg", u: 6, z: 14, j: 80, op: 30 },
+        { name: "Дракон", img: "Drakon.jpg", u: 12, z: 20, j: 300, op: 500 },
+        { name: "Черен Паладин", img: "CherenPaladin.jpg", u: 9, z: 17, j: 150, op: 100 },
+        { name: "Мукалец", img: "Mukalets.jpg", u: 5, z: 12, j: 45, op: 15 },
+        { name: "Джудже Ренегат", img: "DjudjeRenegat.jpg", u: 5, z: 15, j: 50, op: 20 },
+        { name: "Токен", img: "Token.jpg", u: 7, z: 14, j: 65, op: 40 },
+        { name: "Имп", img: "Imp.jpg", u: 3, z: 10, j: 20, op: 8 },
+        { name: "Макрид", img: "Makrid.jpg", u: 8, z: 15, j: 90, op: 60 },
+        { name: "Син Афран", img: "SinAfran.jpg", u: 6, z: 13, j: 70, op: 35 }
+    ];
+
+    const grid = document.getElementById('monster-grid');
+
+    monsters.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'monster-card';
+        card.innerHTML = `
+            <img src="images/${m.img}" class="monster-img" alt="${m.name}">
+            <div class="monster-info">
+                <strong class="monster-name">${m.name}</strong>
+                <div class="stats">
+                    <div class="stat-box"><span class="stat-label">У:</span>${m.u}</div>
+                    <div class="stat-box"><span class="stat-label">З:</span>${m.z}</div>
+                    <div class="stat-box"><span class="stat-label">Ж:</span>${m.j}</div>
+                    <div class="stat-box"><span class="stat-label">ОП:</span>${m.op}</div>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+</script>
+
+</body>
+</html>
