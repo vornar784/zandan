@@ -60,7 +60,7 @@
         const card = document.createElement('div');
         card.className = 'monster-card';
         card.innerHTML = `
-            <img src="images/${m.img}" class="monster-img" alt="${m.name}">
+            <img src="images/${m.img}" class="monster-img" alt="${m.name}" onerror="this.src='images/placeholder.jpg'">
             <div class="monster-info">
                 <strong class="monster-name">${m.name}</strong>
                 <div class="stats">
