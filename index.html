@@ -5,20 +5,16 @@
     <title>ЗАНДАН - Начало</title>
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: black; color: white; font-family: 'Courier New', serif; overflow: hidden; }
-        
-        /* Цялата анимация се случва тук */
         #viewport { position: fixed; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
 
-        /* Кадър 1: Вратата, която се приближава */
         #dungeon-entry {
             position: absolute; width: 100%; height: 100%;
-            background: url('intro.jpg') no-repeat center center;
+            background: url('images/intro.jpg') no-repeat center center;
             background-size: cover;
             animation: walkIntoDungeon 6s forwards;
             filter: grayscale(1) contrast(1.2);
         }
 
-        /* Кадър 2: Логото (Дракона) */
         #logo-container {
             position: absolute; opacity: 0;
             animation: showLogo 4s 5s forwards;
@@ -26,17 +22,14 @@
         }
         #logo-container img { 
             max-width: 300px; 
-            filter: invert(1) grayscale(1) contrast(1.5); /* Прави снимката на бял лист да изглежда като бяло лого на черен фон */
+            filter: invert(1) grayscale(1) contrast(1.5);
             mix-blend-mode: screen;
         }
 
-        /* Основни секции */
         #main-site { display: none; padding: 50px; text-align: center; animation: fadeIn 2s; }
         nav { border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
         nav a { color: #888; text-decoration: none; margin: 0 15px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9em; }
-        nav a:hover { color: #fff; border-bottom: 1px solid white; }
 
-        /* АНИМАЦИИ */
         @keyframes walkIntoDungeon {
             0% { transform: scale(1); opacity: 0; }
             10% { opacity: 1; }
@@ -59,7 +52,7 @@
         <div id="viewport">
             <div id="dungeon-entry"></div>
             <div id="logo-container">
-                <img src="logo.png">
+                <img src="images/logo.png">
                 <h2 style="letter-spacing: 15px; margin-top: 20px;">ЗАНДАН</h2>
             </div>
         </div>
@@ -73,14 +66,10 @@
             <a href="#">Галерия</a>
         </nav>
         <h1 style="font-size: 4em; letter-spacing: 10px; margin-top: 10vh;">ЗАНДАН</h1>
-        <p style="color: #666; font-style: italic;">Ученически проект от златните години</p>
-        <div style="margin-top: 50px; border: 1px dashed #444; padding: 20px; display: inline-block;">
-            <p>Очаквайте скоро: Дигитализираните страници от тетрадката.</p>
-        </div>
+        <p style="color: #666; font-style: italic;">Дигитализиран архив на една легенда</p>
     </div>
 
     <script>
-        // След 10 секунди (когато свършат анимациите), покажи сайта
         setTimeout(() => {
             document.getElementById('intro-sequence').style.display = 'none';
             const main = document.getElementById('main-site');
@@ -88,6 +77,5 @@
             document.body.style.overflow = 'auto';
         }, 10000);
     </script>
-
 </body>
 </html>
