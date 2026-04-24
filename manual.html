@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЗАНДАН - Ръководство</title>
+    <link rel="stylesheet" href="style.css"> <style>
+        .book-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 20px; }
+        .page-image { max-width: 500px; width: 100%; border: 5px solid #333; box-shadow: 10px 10px 5px #ccc; }
+        .page-text { flex: 1; min-width: 300px; max-width: 600px; padding: 20px; background: #f9f9f9; border-radius: 8px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; cursor: pointer; background: #8b0000; color: white; border: none; border-radius: 5px; margin: 5px; }
+        .lang-switch { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Начало</a>
+        <a href="manual.html">Ръководство</a>
+        <a href="bestiary.html">Бестиарий</a>
+    </nav>
+
+    <div class="controls">
+        <div class="lang-switch">
+            <button onclick="setLanguage('bg')">Български</button>
+            <button onclick="setLanguage('en')">English</button>
+        </div>
+        <button onclick="prevPage()">⬅ Предишна</button>
+        <span id="page-number">Страница 1 / 30</span>
+        <button onclick="nextPage()">Следваща ➡</button>
+    </div>
+
+    <div class="book-container">
+        <img id="current-page-img" src="images/1.jpg" alt="Страница от Зандан" class="page-image">
+        <div id="current-page-content" class="page-text">
+            </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let currentLang = 'bg';
+
+        const content = {
+            1: { bg: "<h1>ЗАНДАН</h1><p>Оригинална корица. Автор: Валентин и Евгени.</p>", en: "<h1>ZANDAN</h1><p>Original Cover. Authors: Valentin & Evgeni.</p>" },
+            2: { bg: "<h3>Увод</h3><p>Тъмнината беше разкъсана от две мъждукащи факли...</p>", en: "<h3>Intro</h3><p>The darkness was pierced by two flickering torches...</p>" },
+            // Тук ще добавим останалите 28 страници с текстовете, които вече разчетохме
+        };
+
+        function updateUI() {
+            document.getElementById('current-page-img').src = `images/${currentPage}.jpg`;
+            document.getElementById('page-number').innerText = `Страница ${currentPage} / 30`;
+            document.getElementById('current-page-content').innerHTML = content[currentPage] ? content[currentPage][currentLang] : "<p>Текстът се обработва...</p>";
+        }
+
+        function nextPage() { if(currentPage < 30) { currentPage++; updateUI(); } }
+        function prevPage() { if(currentPage > 1) { currentPage--; updateUI(); } }
+        function setLanguage(lang) { currentLang = lang; updateUI(); }
+
+        updateUI();
+    </script>
+</body>
+</html>
