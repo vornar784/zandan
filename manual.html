@@ -38,26 +38,59 @@
     </div>
 
     <script>
-        let currentPage = 1;
-        let currentLang = 'bg';
+       let currentPage = 1;
+    let currentLang = 'bg';
 
-        const content = {
-            1: { bg: "<h1>ЗАНДАН</h1><p>Оригинална корица. Автор: Валентин и Евгени.</p>", en: "<h1>ZANDAN</h1><p>Original Cover. Authors: Valentin & Evgeni.</p>" },
-            2: { bg: "<h3>Увод</h3><p>Тъмнината беше разкъсана от две мъждукащи факли...</p>", en: "<h3>Intro</h3><p>The darkness was pierced by two flickering torches...</p>" },
-            // Тук ще добавим останалите 28 страници с текстовете, които вече разчетохме
-        };
+    // Разширен масив - добавяме празни обекти за всички 30 страници
+    const content = {
+        1: { bg: "<h1>ЗАНДАН</h1><p>Оригинална корица. Автор: Валентин и Евгени.</p>", en: "<h1>ZANDAN</h1><p>Original Cover. Authors: Valentin & Evgeni.</p>" },
+        2: { bg: "<h3>Увод</h3><p>Тъмнината беше разкъсана от две мъждукащи факли...</p>", en: "<h3>Intro</h3><p>The darkness was pierced by two flickering torches...</p>" },
+        3: { bg: "<h3>Началото</h3><p>Гилбърт и Макс пред напуканата стена...</p>", en: "<h3>The Beginning</h3><p>Gilbert and Max before the cracked wall...</p>" }
+        // Добави текстовете за останалите страници тук
+    };
 
-        function updateUI() {
-            document.getElementById('current-page-img').src = `images/${currentPage}.jpg`;
-            document.getElementById('page-number').innerText = `Страница ${currentPage} / 30`;
-            document.getElementById('current-page-content').innerHTML = content[currentPage] ? content[currentPage][currentLang] : "<p>Текстът се обработва...</p>";
+    function updateUI() {
+        // Смяна на изображението - това трябва да работи винаги, ако файловете са в /images/
+        const imgElement = document.getElementById('current-page-img');
+        imgElement.src = `images/${currentPage}.jpg`;
+
+        // Смяна на номера
+        document.getElementById('page-number').innerText = `Страница ${currentPage} / 30`;
+
+        // Проверка дали има текст за тази страница
+        const pageText = content[currentPage];
+        const displayDiv = document.getElementById('current-page-content');
+        
+        if (pageText) {
+            displayDiv.innerHTML = pageText[currentLang];
+        } else {
+            displayDiv.innerHTML = currentLang === 'bg' ? 
+                `<p><i>(Оригинален ръкопис на страница ${currentPage}. Текстът е в процес на обработка.)</i></p>` : 
+                `<p><i>(Original manuscript of page ${currentPage}. Text processing in progress.)</i></p>`;
         }
+    }
 
-        function nextPage() { if(currentPage < 30) { currentPage++; updateUI(); } }
-        function prevPage() { if(currentPage > 1) { currentPage--; updateUI(); } }
-        function setLanguage(lang) { currentLang = lang; updateUI(); }
+    function nextPage() {
+        if(currentPage < 30) {
+            currentPage++;
+            updateUI();
+        }
+    }
 
+    function prevPage() {
+        if(currentPage > 1) {
+            currentPage--;
+            updateUI();
+        }
+    }
+
+    function setLanguage(lang) {
+        currentLang = lang;
         updateUI();
+    }
+
+    // Инициализация при зареждане
+    window.onload = updateUI;
     </script>
 </body>
 </html>
