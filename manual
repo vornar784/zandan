@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ЗАНДАН - Ръководство и Бестиарий</title>
+    <title>ЗАНДАН - Пълно Ръководство</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
@@ -49,15 +49,15 @@
         }
 
         .lang-btn {
-            background: rgba(26, 26, 26, 0.8);
+            background: rgba(26, 26, 26, 0.9);
             color: #fff;
             border: 1px solid #444;
-            padding: 10px 15px;
+            padding: 12px 20px;
             cursor: pointer;
             text-transform: uppercase;
-            font-size: 0.75em;
+            font-size: 0.8em;
             backdrop-filter: blur(5px);
-            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
 
         .lang-btn.active {
@@ -78,88 +78,90 @@
             padding: 50px;
             margin-bottom: 50px;
             border: 1px solid #1a1a1a;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
 
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             font-family: 'Architects Daughter', cursive;
             color: #d4af37;
             text-transform: uppercase;
         }
 
-        h1 { text-align: center; font-size: 2.5em; letter-spacing: 5px; margin-bottom: 50px; }
-        h2 { border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 0; }
+        h1 { text-align: center; font-size: 3em; margin-bottom: 40px; }
+        h2 { border-bottom: 2px solid #333; padding-bottom: 10px; }
 
         .story-block {
             font-style: italic;
             color: #999;
-            border-left: 3px solid #d4af37;
+            border-left: 4px solid #d4af37;
             padding-left: 25px;
-            margin: 25px 0;
+            margin: 30px 0;
+            background: rgba(212, 175, 55, 0.03);
+            padding-top: 15px;
+            padding-bottom: 15px;
         }
 
-        /* ТАБЛИЦИ И ГРАФИКИ */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: #050505;
+        /* ВИЗУАЛИЗАЦИЯ НА КАРТА (GRID) */
+        .map-visual {
+            display: grid;
+            grid-template-columns: repeat(10, 30px);
+            gap: 2px;
+            background: #222;
+            padding: 10px;
+            width: fit-content;
+            margin: 20px auto;
+            border: 1px solid #444;
         }
 
-        table, th, td { border: 1px solid #222; }
-        th, td { padding: 12px; text-align: center; }
-        th { background: #111; color: #d4af37; font-size: 0.8em; }
+        .cell { width: 30px; height: 30px; background: #000; border: 1px solid #111; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #444; }
+        .cell.wall { background: #333; }
+        .cell.room { background: #1a1a1a; border-color: #d4af37; }
+        .cell.door { color: #d4af37; font-weight: bold; }
 
-        .map-grid-placeholder {
-            background: #111;
-            border: 1px dashed #444;
-            padding: 30px;
-            text-align: center;
-            margin: 20px 0;
-            font-family: monospace;
-            color: #666;
-        }
-
-        /* БЕСТИАРИЙ ГРИД */
+        /* БЕСТИАРИЙ */
         .monster-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 30px;
         }
 
         .monster-card {
             background: #050505;
-            border: 1px solid #1a1a1a;
+            border: 1px solid #222;
             padding: 20px;
             transition: 0.3s;
         }
 
-        .monster-card:hover { border-color: #d4af37; }
-        .monster-card h4 { 
-            margin: 0 0 10px 0; 
-            color: #d4af37; 
-            font-family: 'Architects Daughter', cursive; 
-            border-bottom: 1px solid #222;
-        }
+        .monster-card:hover { border-color: #d4af37; transform: translateY(-5px); }
 
         .m-stats {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 5px;
-            font-size: 0.8em;
-            margin-bottom: 10px;
+            margin: 15px 0;
         }
 
         .m-stat {
-            background: #151515;
-            padding: 2px 6px;
-            border: 1px solid #222;
+            background: #111;
+            padding: 5px;
+            border: 1px solid #333;
+            text-align: center;
+            font-size: 0.8em;
         }
 
-        .m-sp { font-size: 0.75em; color: #888; font-style: italic; }
+        .m-stat span { display: block; color: #666; font-size: 0.7em; margin-bottom: 2px; }
+
+        .m-special {
+            font-size: 0.8em;
+            color: #d4af37;
+            border-top: 1px dashed #333;
+            padding-top: 10px;
+            font-style: italic;
+        }
 
         [lang="en"] { display: none; }
+        
+        .page-num { display: block; text-align: right; color: #444; font-size: 0.7em; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -172,8 +174,8 @@
     </nav>
 
     <div class="lang-switch">
-        <button class="lang-btn active" id="btn-bg" onclick="setLang('bg')">BG</button>
-        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn active" id="btn-bg" onclick="setLang('bg')">Български</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">English</button>
     </div>
 
     <div class="container">
@@ -181,122 +183,258 @@
         <div class="section-card">
             <div lang="bg">
                 <h1>ЗАНДАН</h1>
-                <h2>ВЪВЕДЕНИЕ (ИНТРО)</h2>
+                <h2>ВЪВЕДЕНИЕ</h2>
                 <div class="story-block">
-                    Тъмнината беше разкъсана от две мъждукащи факли... Гилбърт и Макс, двама авантюристи, достигат до заветната стена. "Елементарна задача", казва Гилбърт, преди смъртоносна стреличка да прониже гърлото му. Изневиделица се появява демонът Езрит. "За крадците има само едно наказание — СМЪРТ!"
+                    Тъмнината беше разкъсана от две мъждукащи факли... Гилбърт и Макс вървяха бавно в мрачния коридор. Стигайки до една напукана стена, Гилбърт напъна с лоста. Стената рухна, разкривайки стая със злато. "Елементарна задача", усмихна се той. <br><br>
+                    В същия миг от стената излетя стреличка и се заби в гърлото му. Гилбърт рухна. Макс изпусна факлата и остана в лепкав мрак. Някаква могъща ръка го сграбчи: "За крадците има само едно наказание — СМЪРТ!". Демонът Езрит не оставя Зандана без охрана.
                 </div>
-                <p>Тази игра е смесица между ролева и настолна игра с опростени правила, създадена да се играе бързо – дори в скучните часове в училище.</p>
+                <p>Тази игра е смеска от ролева и настолна игра с опростени правила, подходяща за бързо разиграване навсякъде.</p>
+                <span class="page-num">стр. 2-6</span>
             </div>
             <div lang="en">
                 <h1>ZANDAN</h1>
-                <h2>INTRODUCTION (INTRO)</h2>
+                <h2>INTRODUCTION</h2>
                 <div class="story-block">
-                    The darkness was pierced by two flickering torches... Gilbert and Max, two adventurers, reach the fated wall. "An elementary task," Gilbert says, moments before a deadly dart pierces his throat. Out of nowhere, the demon Ezrit appears. "For thieves, there is only one punishment—DEATH!"
+                    Darkness was torn apart by two flickering torches... Gilbert and Max walked slowly down the gloomy corridor. Reaching a cracked wall, Gilbert pried it open. The wall collapsed, revealing a room of gold. "Elementary task," he smiled.<br><br>
+                    In that instant, a dart flew from the wall and struck his throat. Gilbert collapsed. Max dropped his torch, left in sticky darkness. A powerful hand seized him: "For thieves, there is only one punishment—DEATH!". The demon Ezrit does not leave the Dungeon unguarded.
                 </div>
-                <p>This game is a mix of role-playing and board games with simplified rules, designed to be played quickly – even during boring school hours.</p>
+                <p>This game is a mix of RPG and board games with simplified rules, designed for quick play anywhere.</p>
+                <span class="page-num">pages 2-6</span>
             </div>
         </div>
 
         <div class="section-card">
             <div lang="bg">
-                <h2>ПРАВИЛА И ПОДГОТОВКА</h2>
-                <p>Единият играч е <strong>Господар на Подземието (ГП)</strong>, а другият е <strong>Герой</strong>.</p>
+                <h2>ПОДГОТОВКА И ПРАВИЛА</h2>
+                <p>Играе се от двама души: <strong>Господар на Подземието (ГП)</strong> и <strong>Герой</strong>.</p>
                 <h3>За ГП:</h3>
+                <p>ГП подготвя подземието на кариран лист. Той чертае коридори, стаи и ги запълва с:</p>
                 <ul>
-                    <li>Чертае се карта върху кариран лист.</li>
-                    <li>Поставят се чудовища, капани и съкровища.</li>
-                    <li>Дава се втора, празна карта на Героя, която той да попълва.</li>
+                    <li>Чудовища (от Зверилника)</li>
+                    <li>Капани (определяни от ГП)</li>
+                    <li>Съкровища (злато, скъпоценности, артефакти)</li>
                 </ul>
-                <h3>За Героя (Характеристики):</h3>
-                <p>Всеки герой има: <strong>Удар (У)</strong>, <strong>Защита (З)</strong>, <strong>Живот (Ж)</strong>, <strong>Късмет (К)</strong> и <strong>Опит (Оп)</strong>.</p>
+                <div class="map-visual">
+                    <div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div>
+                    <div class="cell door">вход</div><div class="cell room"></div><div class="cell room"></div><div class="cell door">D</div><div class="cell"></div><div class="cell"></div><div class="cell room">S</div><div class="cell room"></div><div class="cell room"></div><div class="cell wall"></div>
+                    <div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div>
+                </div>
+                <p><em>Пример за означения: D - Врата, S - Скелет.</em></p>
             </div>
             <div lang="en">
-                <h2>RULES AND PREPARATION</h2>
-                <p>One player is the <strong>Dungeon Master (DM)</strong>, and the other is the <strong>Hero</strong>.</p>
+                <h2>PREPARATION & RULES</h2>
+                <p>Played by two people: <strong>Dungeon Master (DM)</strong> and a <strong>Hero</strong>.</p>
                 <h3>For the DM:</h3>
+                <p>The DM prepares the dungeon on grid paper. They draw corridors and rooms, filling them with:</p>
                 <ul>
-                    <li>Draw a map on grid paper.</li>
-                    <li>Place monsters, traps, and treasures.</li>
-                    <li>Provide a second, blank map for the Hero to fill in.</li>
+                    <li>Monsters (from the Bestiary)</li>
+                    <li>Traps (defined by DM)</li>
+                    <li>Treasures (gold, gems, artifacts)</li>
                 </ul>
-                <h3>For the Hero (Stats):</h3>
-                <p>Every hero has: <strong>Hit (H)</strong>, <strong>Defence (D)</strong>, <strong>Hit Points (HP)</strong>, <strong>Luck (L)</strong>, and <strong>Experience (Exp)</strong>.</p>
+                <div class="map-visual">
+                    <div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div>
+                    <div class="cell door">in</div><div class="cell room"></div><div class="cell room"></div><div class="cell door">D</div><div class="cell"></div><div class="cell"></div><div class="cell room">S</div><div class="cell room"></div><div class="cell room"></div><div class="cell wall"></div>
+                    <div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div><div class="cell wall"></div>
+                </div>
+                <p><em>Key: D - Door, S - Skeleton.</em></p>
             </div>
         </div>
 
         <div class="section-card">
             <div lang="bg">
-                <h2>ВОДЕНЕ НА БОЙ</h2>
-                <p>Боят се води чрез <strong>Таблицата със Случайни Числа (ТСЧ)</strong>:</p>
-                <ol>
-                    <li>Героят избира число + добавя своя <strong>У</strong>.</li>
-                    <li>ГП избира число за чудовището + неговия <strong>У</strong>.</li>
-                    <li>По-високият резултат печели. Разликата се изважда от <strong>Ж</strong> на загубилия.</li>
-                </ol>
+                <h2>ГЕРОЯТ</h2>
+                <p>Всеки герой има следните характеристики:</p>
+                <ul>
+                    <li><strong>Удар (У):</strong> Определя се чрез ТСЧ (Таблица със случайни числа).</li>
+                    <li><strong>Защита (З):</strong> Започва на 10 точки.</li>
+                    <li><strong>Живот (Ж):</strong> Изчислява се: (У + З) * 2.</li>
+                    <li><strong>Късмет (К):</strong> Използва се за избягване на капани.</li>
+                    <li><strong>Опит (Оп):</strong> Печели се при победи. 100 Оп = 1 ниво нагоре.</li>
+                </ul>
+                <span class="page-num">стр. 11-12</span>
             </div>
             <div lang="en">
-                <h2>COMBAT SYSTEM</h2>
-                <p>Combat is resolved using the <strong>Random Number Table (RNT)</strong>:</p>
+                <h2>THE HERO</h2>
+                <p>Every hero has the following statistics:</p>
+                <ul>
+                    <li><strong>Hit (H):</strong> Determined by the RNT (Random Number Table).</li>
+                    <li><strong>Defence (D):</strong> Starts at 10 points.</li>
+                    <li><strong>Hit Points (HP):</strong> Calculated as: (H + D) * 2.</li>
+                    <li><strong>Luck (L):</strong> Used for evading traps.</li>
+                    <li><strong>Experience (Exp):</strong> Earned through victory. 100 Exp = Level Up.</li>
+                </ul>
+                <span class="page-num">pages 11-12</span>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div lang="bg">
+                <h2>БИТКА</h2>
+                <p>Когато Героят срещне противник:</p>
                 <ol>
-                    <li>The Hero picks a number + adds their <strong>H</strong>.</li>
-                    <li>The DM picks a number for the monster + its <strong>H</strong>.</li>
-                    <li>The higher total wins. The difference is subtracted from the loser's <strong>HP</strong>.</li>
+                    <li>Героят избира число от ТСЧ + добавя своя <strong>У</strong>.</li>
+                    <li>ГП избира число от ТСЧ за чудовището + неговия <strong>У</strong>.</li>
+                    <li>Който има по-голям сбор, удря другия.</li>
+                    <li>Разликата в сборовете се изважда от <strong>Ж</strong> на загубилия.</li>
                 </ol>
+                <p><em>Пример: Герой (15) срещу Орк (12). Оркът губи 3 Ж.</em></p>
+                <span class="page-num">стр. 13-16</span>
+            </div>
+            <div lang="en">
+                <h2>COMBAT</h2>
+                <p>When the Hero encounters an opponent:</p>
+                <ol>
+                    <li>The Hero picks a number from RNT + adds their <strong>H</strong>.</li>
+                    <li>DM picks a number from RNT for the monster + its <strong>H</strong>.</li>
+                    <li>The higher total lands a hit.</li>
+                    <li>The difference is subtracted from the loser's <strong>HP</strong>.</li>
+                </ol>
+                <p><em>Example: Hero (15) vs Orc (12). Orc loses 3 HP.</em></p>
+                <span class="page-num">pages 13-16</span>
             </div>
         </div>
 
         <div class="section-card">
             <div lang="bg">
                 <h2>ЗВЕРИЛНИК (БЕСТИАРИЙ)</h2>
-                <p>Тук са изброени някои от опасностите, дебнещи в Зандана:</p>
                 <div class="monster-grid">
                     <div class="monster-card">
                         <h4>Скелет</h4>
                         <div class="m-stats">
-                            <div class="m-stat">У: 8</div><div class="m-stat">З: 8</div><div class="m-stat">Ж: 20</div>
+                            <div class="m-stat"><span>У</span>8</div>
+                            <div class="m-stat"><span>З</span>8</div>
+                            <div class="m-stat"><span>Ж</span>20</div>
+                            <div class="m-stat"><span>К</span>5</div>
+                            <div class="m-stat"><span>Оп</span>10</div>
                         </div>
-                        <div class="m-sp">Сп: Няма</div>
+                        <div class="m-special">Сп: Няма</div>
+                    </div>
+                    <div class="monster-card">
+                        <h4>Гном Крадец</h4>
+                        <div class="m-stats">
+                            <div class="m-stat"><span>У</span>10</div>
+                            <div class="m-stat"><span>З</span>9</div>
+                            <div class="m-stat"><span>Ж</span>25</div>
+                            <div class="m-stat"><span>К</span>8</div>
+                            <div class="m-stat"><span>Оп</span>15</div>
+                        </div>
+                        <div class="m-special">Сп: Краде злато при удар.</div>
+                    </div>
+                    <div class="monster-card">
+                        <h4>Плъх Мутант</h4>
+                        <div class="m-stats">
+                            <div class="m-stat"><span>У</span>7</div>
+                            <div class="m-stat"><span>З</span>6</div>
+                            <div class="m-stat"><span>Ж</span>15</div>
+                            <div class="m-stat"><span>К</span>10</div>
+                            <div class="m-stat"><span>Оп</span>5</div>
+                        </div>
+                        <div class="m-special">Сп: Болест (-1 Ж на ход).</div>
                     </div>
                     <div class="monster-card">
                         <h4>Орк</h4>
                         <div class="m-stats">
-                            <div class="m-stat">У: 12</div><div class="m-stat">З: 10</div><div class="m-stat">Ж: 40</div>
+                            <div class="m-stat"><span>У</span>12</div>
+                            <div class="m-stat"><span>З</span>10</div>
+                            <div class="m-stat"><span>Ж</span>40</div>
+                            <div class="m-stat"><span>К</span>4</div>
+                            <div class="m-stat"><span>Оп</span>25</div>
                         </div>
-                        <div class="m-sp">Сп: Ярост (+2 У)</div>
+                        <div class="m-special">Сп: Ярост (+2 У).</div>
+                    </div>
+                    <div class="monster-card">
+                        <h4>Зомби</h4>
+                        <div class="m-stats">
+                            <div class="m-stat"><span>У</span>9</div>
+                            <div class="m-stat"><span>З</span>5</div>
+                            <div class="m-stat"><span>Ж</span>50</div>
+                            <div class="m-stat"><span>К</span>1</div>
+                            <div class="m-stat"><span>Оп</span>20</div>
+                        </div>
+                        <div class="m-special">Сп: Бавно, но издръжливо.</div>
+                    </div>
+                    <div class="monster-card">
+                        <h4>Лич</h4>
+                        <div class="m-stats">
+                            <div class="m-stat"><span>У</span>15</div>
+                            <div class="m-stat"><span>З</span>12</div>
+                            <div class="m-stat"><span>Ж</span>70</div>
+                            <div class="m-stat"><span>К</span>9</div>
+                            <div class="m-stat"><span>Оп</span>150</div>
+                        </div>
+                        <div class="m-special">Сп: Магия (директни щети).</div>
+                    </div>
+                    <div class="monster-card">
+                        <h4>Минотавър</h4>
+                        <div class="m-stats">
+                            <div class="m-stat"><span>У</span>16</div>
+                            <div class="m-stat"><span>З</span>14</div>
+                            <div class="m-stat"><span>Ж</span>85</div>
+                            <div class="m-stat"><span>К</span>3</div>
+                            <div class="m-stat"><span>Оп</span>200</div>
+                        </div>
+                        <div class="m-special">Сп: Смазване (пробива З).</div>
                     </div>
                     <div class="monster-card" style="border-color: #f00;">
-                        <h4>Езрит (Бос)</h4>
+                        <h4>ЕЗРИТ (ДЕМОН)</h4>
                         <div class="m-stats">
-                            <div class="m-stat">У: 18</div><div class="m-stat">З: 15</div><div class="m-stat">Ж: 100</div>
+                            <div class="m-stat"><span>У</span>18</div>
+                            <div class="m-stat"><span>З</span>15</div>
+                            <div class="m-stat"><span>Ж</span>100</div>
+                            <div class="m-stat"><span>К</span>10</div>
+                            <div class="m-stat"><span>Оп</span>500</div>
                         </div>
-                        <div class="m-sp">Сп: Регенерация</div>
+                        <div class="m-special">Сп: Регенерация / Безсмъртие.</div>
                     </div>
                 </div>
             </div>
+
             <div lang="en">
                 <h2>BESTIARY</h2>
-                <p>Here are some of the dangers lurking in the Dungeon:</p>
                 <div class="monster-grid">
                     <div class="monster-card">
                         <h4>Skeleton</h4>
                         <div class="m-stats">
-                            <div class="m-stat">H: 8</div><div class="m-stat">D: 8</div><div class="m-stat">HP: 20</div>
+                            <div class="m-stat"><span>H</span>8</div>
+                            <div class="m-stat"><span>D</span>8</div>
+                            <div class="m-stat"><span>HP</span>20</div>
+                            <div class="m-stat"><span>L</span>5</div>
+                            <div class="m-stat"><span>Exp</span>10</div>
                         </div>
-                        <div class="m-sp">Sp: None</div>
+                        <div class="m-special">Sp: None</div>
+                    </div>
+                    <div class="monster-card">
+                        <h4>Gnome Thief</h4>
+                        <div class="m-stats">
+                            <div class="m-stat"><span>H</span>10</div>
+                            <div class="m-stat"><span>D</span>9</div>
+                            <div class="m-stat"><span>HP</span>25</div>
+                            <div class="m-stat"><span>L</span>8</div>
+                            <div class="m-stat"><span>Exp</span>15</div>
+                        </div>
+                        <div class="m-special">Sp: Steals gold on hit.</div>
                     </div>
                     <div class="monster-card">
                         <h4>Orc</h4>
                         <div class="m-stats">
-                            <div class="m-stat">H: 12</div><div class="m-stat">D: 10</div><div class="m-stat">HP: 40</div>
+                            <div class="m-stat"><span>H</span>12</div>
+                            <div class="m-stat"><span>D</span>10</div>
+                            <div class="m-stat"><span>HP</span>40</div>
+                            <div class="m-stat"><span>L</span>4</div>
+                            <div class="m-stat"><span>Exp</span>25</div>
                         </div>
-                        <div class="m-sp">Sp: Rage (+2 H)</div>
+                        <div class="m-special">Sp: Rage (+2 H).</div>
                     </div>
                     <div class="monster-card" style="border-color: #f00;">
-                        <h4>Ezrit (Boss)</h4>
+                        <h4>EZRIT (DEMON)</h4>
                         <div class="m-stats">
-                            <div class="m-stat)H: 18</div><div class="m-stat">D: 15</div><div class="m-stat">HP: 100</div>
+                            <div class="m-stat"><span>H</span>18</div>
+                            <div class="m-stat"><span>D</span>15</div>
+                            <div class="m-stat"><span>HP</span>100</div>
+                            <div class="m-stat"><span>L</span>10</div>
+                            <div class="m-stat"><span>Exp</span>500</div>
                         </div>
-                        <div class="m-sp">Sp: Regeneration</div>
+                        <div class="m-special">Sp: Regeneration / Immortality.</div>
                     </div>
                 </div>
             </div>
@@ -306,12 +444,18 @@
 
     <script>
         function setLang(lang) {
-            document.querySelectorAll('[lang]').forEach(el => el.style.display = 'none');
-            document.querySelectorAll(`[lang="${lang}"]`).forEach(el => el.style.display = 'block');
+            document.querySelectorAll('[lang]').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll(`[lang="${lang}"]`).forEach(el => {
+                // Ensure grid containers remain grids
+                if (el.classList.contains('monster-grid')) {
+                    el.style.display = 'grid';
+                } else {
+                    el.style.display = 'block';
+                }
+            });
             
-            // За бестиария - картите трябва да станат flex/grid вместо block
-            document.querySelectorAll(`div[lang="${lang}"].monster-grid`).forEach(el => el.style.display = 'grid');
-
             document.getElementById('btn-bg').classList.toggle('active', lang === 'bg');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         }
