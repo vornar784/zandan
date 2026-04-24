@@ -3,14 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ЗАНДАН - Ръководство</title>
-    <link rel="stylesheet" href="style.css"> <style>
-        .book-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 20px; }
-        .page-image { max-width: 500px; width: 100%; border: 5px solid #333; box-shadow: 10px 10px 5px #ccc; }
-        .page-text { flex: 1; min-width: 300px; max-width: 600px; padding: 20px; background: #f9f9f9; border-radius: 8px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .controls { text-align: center; margin: 20px 0; }
-        button { padding: 10px 20px; cursor: pointer; background: #8b0000; color: white; border: none; border-radius: 5px; margin: 5px; }
-        .lang-switch { margin-bottom: 10px; }
+    <title>Зандан - Ръководство</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+
+        body {
+            background-color: #000000; /* Черен фон като заглавната страница */
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Навигация */
+        nav {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: #888; }
+
+        /* Контейнер за управление */
+        .controls {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .btn {
+            background-color: #1a1a1a;
+            color: white;
+            border: 1px solid #ffffff;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .btn:disabled {
+            border-color: #333;
+            color: #333;
+            cursor: not-allowed;
+        }
+
+        #page-info {
+            margin: 0 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Контейнер за страницата от ръководството */
+        .manual-container {
+            max-width: 900px;
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #manual-img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #444;
+            display: block;
+        }
+
+        .description {
+            margin-top: 20px;
+            font-style: italic;
+            color: #bbb;
+            text-align: center;
+            font-family: 'Architects Daughter', cursive;
+        }
     </style>
 </head>
 <body>
@@ -22,75 +111,65 @@
     </nav>
 
     <div class="controls">
-        <div class="lang-switch">
-            <button onclick="setLanguage('bg')">Български</button>
-            <button onclick="setLanguage('en')">English</button>
-        </div>
-        <button onclick="prevPage()">⬅ Предишна</button>
-        <span id="page-number">Страница 1 / 30</span>
-        <button onclick="nextPage()">Следваща ➡</button>
+        <button class="btn" id="prevBtn" onclick="changePage(-1)">← Предишна</button>
+        <span id="page-info">Страница 1 / 28</span>
+        <button class="btn" id="nextBtn" onclick="changePage(1)">Следваща →</button>
     </div>
 
-    <div class="book-container">
-        <img id="current-page-img" src="images/1.jpg" alt="Страница от Зандан" class="page-image">
-        <div id="current-page-content" class="page-text">
-            </div>
+    <div class="manual-container">
+        <img id="manual-img" src="1.jpg" alt="Страница от Зандан">
+        <div id="page-desc" class="description">Оригинална корица. Автор: Валентин и Евгени.</div>
     </div>
 
     <script>
-       let currentPage = 1;
-    let currentLang = 'bg';
+        let currentPage = 1;
+        const totalPages = 28; // Според броя файлове, които се виждат в GitHub
 
-    // Разширен масив - добавяме празни обекти за всички 30 страници
-    const content = {
-        1: { bg: "<h1>ЗАНДАН</h1><p>Оригинална корица. Автор: Валентин и Евгени.</p>", en: "<h1>ZANDAN</h1><p>Original Cover. Authors: Valentin & Evgeni.</p>" },
-        2: { bg: "<h3>Увод</h3><p>Тъмнината беше разкъсана от две мъждукащи факли...</p>", en: "<h3>Intro</h3><p>The darkness was pierced by two flickering torches...</p>" },
-        3: { bg: "<h3>Началото</h3><p>Гилбърт и Макс пред напуканата стена...</p>", en: "<h3>The Beginning</h3><p>Gilbert and Max before the cracked wall...</p>" }
-        // Добави текстовете за останалите страници тук
-    };
+        // Описания за страниците (по избор)
+        const descriptions = {
+            1: "Оригинална корица на играта.",
+            2: "Въведение и история на света.",
+            18: "Клетка 1: Хора - статистика на противниците.",
+            20: "Клетка 2: Животни.",
+            22: "Клетка 3: Фантастични същества.",
+            28: "Клетка 4: Богове и образи."
+        };
 
-    function updateUI() {
-        // Смяна на изображението - това трябва да работи винаги, ако файловете са в /images/
-        const imgElement = document.getElementById('current-page-img');
-        imgElement.src = `images/${currentPage}.jpg`;
+        function updateUI() {
+            const img = document.getElementById('manual-img');
+            const info = document.getElementById('page-info');
+            const desc = document.getElementById('page-desc');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
 
-        // Смяна на номера
-        document.getElementById('page-number').innerText = `Страница ${currentPage} / 30`;
+            // Пътят е директно името на файла, тъй като са в root
+            img.src = currentPage + ".jpg";
+            info.innerText = `Страница ${currentPage} / ${totalPages}`;
+            
+            // Обновяване на описанието
+            desc.innerText = descriptions[currentPage] || `Страница ${currentPage} от архива на Зандан.`;
 
-        // Проверка дали има текст за тази страница
-        const pageText = content[currentPage];
-        const displayDiv = document.getElementById('current-page-content');
-        
-        if (pageText) {
-            displayDiv.innerHTML = pageText[currentLang];
-        } else {
-            displayDiv.innerHTML = currentLang === 'bg' ? 
-                `<p><i>(Оригинален ръкопис на страница ${currentPage}. Текстът е в процес на обработка.)</i></p>` : 
-                `<p><i>(Original manuscript of page ${currentPage}. Text processing in progress.)</i></p>`;
+            // Управление на бутоните
+            prevBtn.disabled = (currentPage === 1);
+            nextBtn.disabled = (currentPage === totalPages);
+
+            // Плавно превъртане нагоре при смяна на страница
+            window.scrollTo(0, 0);
         }
-    }
 
-    function nextPage() {
-        if(currentPage < 30) {
-            currentPage++;
+        function changePage(delta) {
+            currentPage += delta;
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
             updateUI();
         }
-    }
 
-    function prevPage() {
-        if(currentPage > 1) {
-            currentPage--;
-            updateUI();
-        }
-    }
-
-    function setLanguage(lang) {
-        currentLang = lang;
-        updateUI();
-    }
-
-    // Инициализация при зареждане
-    window.onload = updateUI;
+        // Поддръжка на стрелките от клавиатурата
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "ArrowLeft" && currentPage > 1) changePage(-1);
+            if (e.key === "ArrowRight" && currentPage < totalPages) changePage(1);
+        });
     </script>
+
 </body>
 </html>
