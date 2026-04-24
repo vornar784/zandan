@@ -4,11 +4,25 @@
     <meta charset="UTF-8">
     <title>Зандан - Бестиарий</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+
         body { background-color: #0c0c0c; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
-        h1 { text-align: center; color: #ff0000; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; }
         
-        .cell-container { margin-bottom: 50px; border-left: 4px solid #ff0000; padding-left: 20px; }
-        .cell-title { color: #ffcc00; font-size: 1.8em; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        /* Заглавие в стила на началната страница */
+        h1 { 
+            text-align: center; 
+            color: #d4af37; 
+            font-family: 'Architects Daughter', cursive;
+            font-size: 3em;
+            text-transform: uppercase; 
+            letter-spacing: 5px; 
+            margin-bottom: 40px; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        /* Бяла линия и бяло за заглавията на клетките */
+        .cell-container { margin-bottom: 50px; border-left: 4px solid #ffffff; padding-left: 20px; }
+        .cell-title { color: #ffffff; font-size: 1.8em; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
 
         .monster-grid { 
             display: grid; 
@@ -27,19 +41,20 @@
         }
         .monster-card:hover { transform: translateY(-5px); }
 
-        /* Премахва черния прозорец, ако няма картинка */
         .monster-img { width: 100%; height: auto; display: block; border-bottom: 2px solid #333; background: #1a1a1a; }
         .monster-img:not([src]) { display: none; } 
 
         .monster-info { padding: 15px; flex-grow: 1; }
-        .monster-name { display: block; font-size: 1.3em; color: #ffcc00; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px; }
+        
+        /* Имената на съществата вече са бели */
+        .monster-name { display: block; font-size: 1.3em; color: #ffffff; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px; }
 
+        /* Статистики с добавен К (Късмет) */
         .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .stat-box { background: #262626; padding: 5px 10px; border-radius: 4px; font-size: 0.9em; border: 1px solid #333; }
+        .stat-box { background: #262626; padding: 5px 10px; border-radius: 4px; font-size: 0.85em; border: 1px solid #333; }
         .stat-label { color: #888; margin-right: 5px; font-weight: bold; }
 
-        .special-note { color: #ff4444; font-size: 0.85em; margin-top: 10px; font-style: italic; }
-        .page-tag { font-size: 0.7em; color: #555; margin-top: 10px; display: block; text-align: right; }
+        .special-note { color: #ff4444; font-size: 0.85em; margin-top: 10px; font-style: italic; border-top: 1px dashed #444; padding-top: 5px; }
     </style>
 </head>
 <body>
@@ -49,109 +64,108 @@
     <div id="bestiary-content"></div>
 
 <script>
-    // Пътят до папката с картинки в GitHub
     const imgPath = "pages/"; 
 
     const data = [
         {
             cell: "Клетка 1: Хора",
             monsters: [
-                { name: "Селянин", u: 2, z: 7, j: 12, op: 31, p: 18 },
-                { name: "Бандит", u: 6, z: 10, j: 15, op: 41, p: 18 },
-                { name: "Вещица", u: 4, z: 10, j: 12, op: 47, p: 18 },
-                { name: "Главатар", u: 8, z: 12, j: 20, op: 48, p: 18 },
-                { name: "Горски пазач", u: 8, z: 10, j: 15, op: 43, p: 18 },
-                { name: "Стражар", u: 8, z: 10, j: 20, op: 47, p: 18 },
-                { name: "Елитен легионер", u: 11, z: 11, j: 28, op: 55, p: 19 },
-                { name: "Наемен убиец", u: 10, z: 11, j: 20, op: 55, p: 19 },
-                { name: "Рицар", u: 11, z: 14, j: 28, op: 61, p: 19 },
-                { name: "Черен Паладин", u: 10, z: 14, j: 30, op: 68, p: 19, img: "CherenPaladin.png" }
+                { name: "Селянин", u: 2, z: 7, j: 12, k: 5, op: 31 },
+                { name: "Бандит", u: 6, z: 10, j: 15, k: 8, op: 41 },
+                { name: "Вещица", u: 4, z: 10, j: 12, k: 12, op: 47, spec: "Сп. Проклятие - 7" },
+                { name: "Главатар", u: 8, z: 12, j: 20, k: 10, op: 48 },
+                { name: "Горски пазач", u: 8, z: 10, j: 15, k: 9, op: 43 },
+                { name: "Стражар", u: 8, z: 10, j: 20, k: 7, op: 47 },
+                { name: "Елитен легионер", u: 11, z: 11, j: 28, k: 10, op: 55 },
+                { name: "Наемен убиец", u: 10, z: 11, j: 20, k: 14, op: 55 },
+                { name: "Рицар", u: 11, z: 14, j: 28, k: 10, op: 61 },
+                { name: "Черен Паладин", u: 10, z: 14, j: 30, k: 13, op: 68, img: "CherenPaladin.png" }
             ]
         },
         {
             cell: "Клетка 2: Животни",
             monsters: [
-                { name: "Куче", u: 4, z: 10, j: 10, op: 38, p: 20 },
-                { name: "Вълк", u: 6, z: 15, j: 12, op: 47, p: 20 },
-                { name: "Кафява мечка", u: 9, z: 10, j: 20, op: 48, p: 20 },
-                { name: "Мечка на Брейг", u: 11, z: 8, j: 23, op: 48, p: 20 },
-                { name: "Макрид", u: 10, z: 10, j: 20, op: 54, p: 20, img: "Makrid.jpg" },
-                { name: "Боа", u: 6, z: 7, j: 17, op: 38, p: 20 },
-                { name: "Кобра", u: 7, z: 14, j: 2, op: 44, p: 21, spec: "+5 отрова" },
-                { name: "Бик", u: 12, z: 4, j: 20, op: 42, p: 21 },
-                { name: "Боен кон", u: 12, z: 6, j: 14, op: 42, p: 21 },
-                { name: "Лъв", u: 11, z: 12, j: 17, op: 52, p: 21 },
-                { name: "Аргодон", u: 10, z: 12, j: 22, op: 54, p: 21 }
+                { name: "Куче", u: 4, z: 10, j: 10, k: 6, op: 38 },
+                { name: "Вълк", u: 6, z: 15, j: 12, k: 8, op: 47 },
+                { name: "Кафява мечка", u: 9, z: 10, j: 20, k: 7, op: 48 },
+                { name: "Мечка на Брейг", u: 11, z: 8, j: 23, k: 5, op: 48 },
+                { name: "Макрид", u: 10, z: 10, j: 20, k: 10, op: 54, img: "Makrid.jpg" },
+                { name: "Боа", u: 6, z: 7, j: 17, k: 6, op: 38 },
+                { name: "Кобра", u: 7, z: 14, j: 2, k: 15, op: 44, spec: "Сп. +5 отрова" },
+                { name: "Бик", u: 12, z: 4, j: 20, k: 4, op: 42 },
+                { name: "Боен кон", u: 12, z: 6, j: 14, k: 8, op: 42 },
+                { name: "Лъв", u: 11, z: 12, j: 17, k: 9, op: 52 },
+                { name: "Аргодон", u: 10, z: 12, j: 22, k: 12, op: 54 }
             ]
         },
         {
             cell: "Клетка 3: Фантастични и митологични същества",
             monsters: [
-                { name: "Гнол", u: 2, z: 8, j: 9, op: 19, p: 22 },
-                { name: "Таласъм", u: 1, z: 10, j: 5, op: 23, p: 22 },
-                { name: "Ими", u: 1, z: 7, j: 3, op: 23, p: 22, spec: "Сила: 1" },
-                { name: "Скелет", u: 2, z: 7, j: 8, op: 24, p: 22 },
-                { name: "Гоблин", u: 1, z: 8, j: 5, op: 20, p: 22 },
-                { name: "Зомби", u: 4, z: 4, j: 10, op: 27, p: 22, spec: "Сила: 1" },
-                { name: "Привидение", u: 2, z: 14, j: 12, op: 36, p: 23 },
-                { name: "Ефрит", u: 8, z: 12, j: 18, op: 46, p: 23 },
-                { name: "Дриада", u: 8, z: 15, j: 18, op: 46, p: 23 },
-                { name: "Джин", u: 10, z: 10, j: 20, op: 50, p: 23 },
-                { name: "Фантом", u: 14, z: 12, j: 25, op: 57, p: 23, spec: "Героят се самонаранява" },
-                { name: "Дух-сянка", u: 16, z: 15, j: 25, op: 66, p: 23 },
-                { name: "Мрачна фея", u: 5, z: 7, j: 12, op: 34, p: 23 },
-                { name: "Горска фея", u: 1, z: 14, j: 8, op: 35, p: 23 },
-                { name: "Караконджул", u: 6, z: 8, j: 12, op: 34, p: 23 },
-                { name: "Мукалец", u: 5, z: 7, j: 10, op: 35, p: 23, img: "Mukalets.png" },
-                { name: "Орк", u: 6, z: 8, j: 18, op: 34, p: 23, img: "Orc.jpg" },
-                { name: "Бехолдър", u: 9, z: 8, j: 15, op: 41, p: 23 },
-                { name: "Огре", u: 10, z: 4, j: 30, op: 49, p: 24 },
-                { name: "Вампир", u: 4, z: 13, j: 15, op: 48, p: 24 },
-                { name: "Харпия", u: 5, z: 14, j: 11, op: 49, p: 24 },
-                { name: "Тромол", u: 10, z: 11, j: 22, op: 55, p: 24 },
-                { name: "Валкирия", u: 6, z: 16, j: 15, op: 52, p: 24 },
-                { name: "Кентавър", u: 11, z: 10, j: 22, op: 55, p: 24 },
-                { name: "Сив", u: 10, z: 15, j: 10, op: 43, p: 24 },
-                { name: "Мракохвът", u: 17, z: 8, j: 28, op: 65, p: 24 },
-                { name: "Полуръст", u: 3, z: 12, j: 10, op: 43, p: 24 },
-                { name: "Джудже ренегат", u: 10, z: 7, j: 16, op: 38, p: 24, img: "DjudjeRenegat.png" },
-                { name: "Мрачен елф", u: 7, z: 16, j: 20, op: 53, p: 24, spec: "Сила: 2" },
-                { name: "Трол", u: 8, z: 5, j: 28, op: 44, p: 24, img: "Troll.jpg" },
-                { name: "Токен", u: 12, z: 16, j: 20, op: 69, p: 25, img: "Token.png", spec: "Атака с мисъл" },
-                { name: "Гигант", u: 10, z: 8, j: 22, op: 46, p: 25 },
-                { name: "Цербер", u: 10, z: 12, j: 18, op: 53, p: 25 },
-                { name: "Голем", u: 12, z: 9, j: 30, op: 65, p: 25 },
-                { name: "Кригон", u: 14, z: 14, j: 25, op: 63, p: 25, spec: "Полудемон" },
-                { name: "Драмен", u: 18, z: 14, j: 30, op: 70, p: 25, spec: "Полудракон" },
-                { name: "Върколак", u: 7, z: 14, j: 20, op: 46, p: 25 },
-                { name: "Циклоп", u: 13, z: 12, j: 30, op: 71, p: 25 },
-                { name: "Минотавър", u: 12, z: 12, j: 25, op: 60, p: 25 },
-                { name: "Еднорог", u: 14, z: 10, j: 26, op: 60, p: 25 },
-                { name: "Пегас", u: 13, z: 14, j: 27, op: 62, p: 25 },
-                { name: "Феникс", u: 15, z: 15, j: 30, op: 69, p: 25 },
-                { name: "Ламя", u: 20, z: 13, j: 40, op: 77, p: 26 },
-                { name: "Бехемот", u: 24, z: 11, j: 38, op: 77, p: 26 },
-                { name: "Магичен дракон", u: 15, z: 12, j: 35, op: 92, p: 26, spec: "Сила: 17" },
-                { name: "Черен дракон", u: 26, z: 12, j: 60, op: 103, p: 26 },
-                { name: "Дяволон", u: 23, z: 13, j: 55, op: 106, p: 26, spec: "Полудемон" },
-                { name: "Син Афран", u: 42, z: 17, j: 90, op: 159, p: 26, img: "SinAfran.jpg" },
-                { name: "Воден елементал", u: 11, z: 13, j: 21, op: 56, p: 26 },
-                { name: "Въздушен ел.", u: 10, z: 14, j: 20, op: 56, p: 26 },
-                { name: "Огнен ел.", u: 15, z: 12, j: 29, op: 61, p: 26 },
-                { name: "Земен ел.", u: 16, z: 9, j: 30, op: 60, p: 26 },
-                { name: "Балрог", u: 16, z: 10, j: 35, op: 71, p: 26 },
-                { name: "Демон", u: 16, z: 15, j: 35, op: 78, p: 26 },
-                { name: "Дендроид", u: 32, z: 10, j: 50, op: 94, p: 27 },
-                { name: "Хидра", u: 30, z: 12, j: 60, op: 112, p: 27 },
-                { name: "Дракон", u: 12, z: 20, j: 300, op: 500, p: 28, img: "Drakon.jpg" }
+                { name: "Гнол", u: 2, z: 8, j: 9, k: 4, op: 19 },
+                { name: "Таласъм", u: 1, z: 10, j: 5, k: 5, op: 23 },
+                { name: "Имп", u: 1, z: 7, j: 3, k: 10, op: 23, img: "Imp.jpg", spec: "Сп. Сила: 1" },
+                { name: "Скелет", u: 2, z: 7, j: 8, k: 2, op: 24 },
+                { name: "Гоблин", u: 1, z: 8, j: 5, k: 5, op: 20 },
+                { name: "Зомби", u: 4, z: 4, j: 10, k: 1, op: 27, spec: "Сп. Сила: 1" },
+                { name: "Привидение", u: 2, z: 14, j: 12, k: 10, op: 36 },
+                { name: "Ефрит", u: 8, z: 12, j: 18, k: 9, op: 46 },
+                { name: "Дриада", u: 8, z: 15, j: 18, k: 12, op: 46 },
+                { name: "Джин", u: 10, z: 10, j: 20, k: 13, op: 50 },
+                { name: "Фантом", u: 14, z: 12, j: 25, k: 15, op: 57, spec: "Сп. Героят се самонаранява" },
+                { name: "Дух-сянка", u: 16, z: 15, j: 25, k: 14, op: 66 },
+                { name: "Мрачна фея", u: 5, z: 7, j: 12, k: 11, op: 34 },
+                { name: "Горска фея", u: 1, z: 14, j: 8, k: 15, op: 35 },
+                { name: "Караконджул", u: 6, z: 8, j: 12, k: 7, op: 34 },
+                { name: "Мукалец", u: 5, z: 7, j: 10, k: 12, op: 35, img: "Mukalets.png" },
+                { name: "Орк", u: 6, z: 8, j: 18, k: 6, op: 34, img: "Orc.jpg" },
+                { name: "Бехолдър", u: 9, z: 8, j: 15, k: 14, op: 41 },
+                { name: "Огре", u: 10, z: 4, j: 30, k: 3, op: 49 },
+                { name: "Вампир", u: 4, z: 13, j: 15, k: 12, op: 48 },
+                { name: "Харпия", u: 5, z: 14, j: 11, k: 11, op: 49 },
+                { name: "Тромол", u: 10, z: 11, j: 22, k: 9, op: 55 },
+                { name: "Валкирия", u: 6, z: 16, j: 15, k: 14, op: 52 },
+                { name: "Кентавър", u: 11, z: 10, j: 22, k: 10, op: 55 },
+                { name: "Сив", u: 10, z: 15, j: 10, k: 12, op: 43 },
+                { name: "Мракохвът", u: 17, z: 8, j: 28, k: 8, op: 65 },
+                { name: "Полуръст", u: 3, z: 12, j: 10, k: 15, op: 43 },
+                { name: "Джудже ренегат", u: 10, z: 7, j: 16, k: 11, op: 38, img: "DjudjeRenegat.png" },
+                { name: "Мрачен елф", u: 7, z: 16, j: 20, k: 13, op: 53, spec: "Сп. Сила: 2" },
+                { name: "Трол", u: 8, z: 5, j: 28, k: 4, op: 44, img: "Troll.jpg" },
+                { name: "Токен", u: 12, z: 16, j: 20, k: 18, op: 69, img: "Token.png", spec: "Сп. 15 (атака с мисъл)" },
+                { name: "Гигант", u: 10, z: 8, j: 22, k: 7, op: 46 },
+                { name: "Цербер", u: 10, z: 12, j: 18, k: 9, op: 53 },
+                { name: "Голем", u: 12, z: 9, j: 30, k: 5, op: 65 },
+                { name: "Кригон", u: 14, z: 14, j: 25, k: 12, op: 63, spec: "Сп. Полудемон" },
+                { name: "Драмен", u: 18, z: 14, j: 30, k: 13, op: 70, spec: "Сп. Полудракон" },
+                { name: "Върколак", u: 7, z: 14, j: 20, k: 10, op: 46 },
+                { name: "Циклоп", u: 13, z: 12, j: 30, k: 8, op: 71 },
+                { name: "Минотавър", u: 12, z: 12, j: 25, k: 11, op: 60 },
+                { name: "Еднорог", u: 14, z: 10, j: 26, k: 15, op: 60 },
+                { name: "Пегас", u: 13, z: 14, j: 27, k: 15, op: 62 },
+                { name: "Феникс", u: 15, z: 15, j: 30, k: 20, op: 69 },
+                { name: "Ламя", u: 20, z: 13, j: 40, k: 15, op: 77 },
+                { name: "Бехемот", u: 24, z: 11, j: 38, k: 12, op: 77 },
+                { name: "Магичен дракон", u: 15, z: 12, j: 35, k: 19, op: 92, spec: "Сп. - 17 (атака с магия)" },
+                { name: "Черен дракон", u: 26, z: 12, j: 60, k: 17, op: 103 },
+                { name: "Дяволон", u: 23, z: 13, j: 55, k: 16, op: 106, spec: "Сп. Полудемон" },
+                { name: "Син Афран", u: 42, z: 17, j: 90, k: 25, op: 159, img: "SinAfran.jpg" },
+                { name: "Воден елементал", u: 11, z: 13, j: 21, k: 12, op: 56 },
+                { name: "Въздушен ел.", u: 10, z: 14, j: 20, k: 12, op: 56 },
+                { name: "Огнен ел.", u: 15, z: 12, j: 29, k: 12, op: 61 },
+                { name: "Земен ел.", u: 16, z: 9, j: 30, k: 12, op: 60 },
+                { name: "Балрог", u: 16, z: 10, j: 35, k: 14, op: 71 },
+                { name: "Демон", u: 16, z: 15, j: 35, k: 15, op: 78 },
+                { name: "Дендроид", u: 32, z: 10, j: 50, k: 10, op: 94 },
+                { name: "Хидра", u: 30, z: 12, j: 60, k: 15, op: 112 },
+                { name: "Дракон", u: 12, z: 20, j: 300, k: 25, op: 500, img: "Drakon.jpg" }
             ]
         },
         {
             cell: "Клетка 4: Езически богове и християнски образи",
             monsters: [
-                { name: "Архангел", u: 45, z: 15, j: 100, op: 175, p: 28 },
-                { name: "Ангел", u: 21, z: 12, j: 50, op: 93, p: 28 },
-                { name: "Дявол", u: 27, z: 13, j: 60, op: 110, p: 28 }
+                { name: "Архангел", u: 45, z: 15, j: 100, k: 30, op: 175 },
+                { name: "Ангел", u: 21, z: 12, j: 50, k: 25, op: 93 },
+                { name: "Дявол", u: 27, z: 13, j: 60, k: 20, op: 110 }
             ]
         }
     ];
@@ -170,7 +184,6 @@
             const card = document.createElement('div');
             card.className = 'monster-card';
             
-            // Ако има картинка, слагаме пътя до папката 'pages/'
             const imgHtml = m.img ? `<img src="${imgPath}${m.img}" class="monster-img" alt="${m.name}">` : '';
 
             card.innerHTML = `
@@ -181,10 +194,10 @@
                         <div class="stat-box"><span class="stat-label">У:</span>${m.u}</div>
                         <div class="stat-box"><span class="stat-label">З:</span>${m.z}</div>
                         <div class="stat-box"><span class="stat-label">Ж:</span>${m.j}</div>
-                        <div class="stat-box"><span class="stat-label">ОП:</span>${m.op}</div>
+                        <div class="stat-box"><span class="stat-label">К:</span>${m.k}</div>
+                        <div class="stat-box" style="grid-column: span 2;"><span class="stat-label">ОП:</span>${m.op}</div>
                     </div>
                     ${m.spec ? `<div class="special-note">${m.spec}</div>` : ''}
-                    <span class="page-tag">стр. ${m.p}</span>
                 </div>
             `;
             gridEl.appendChild(card);
