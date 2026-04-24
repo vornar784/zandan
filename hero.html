@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЗАНДАН - Лист на Героя</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: 'Courier New', Courier, monospace; background-color: #121212; color: #d4af37; text-align: center; }
+        .hero-card { border: 2px solid #d4af37; max-width: 500px; margin: 50px auto; padding: 20px; background: #1e1e1e; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+        .stat-line { font-size: 1.5em; margin: 10px 0; display: flex; justify-content: space-between; border-bottom: 1px dotted #444; }
+        .btn-action { background: #8b0000; color: white; border: none; padding: 10px 20px; cursor: pointer; font-family: 'Courier New', Courier, monospace; font-weight: bold; margin-top: 20px; }
+        .btn-action:disabled { background: #444; }
+        .inventory { margin-top: 20px; text-align: left; border: 1px dashed #d4af37; padding: 10px; }
+        textarea { width: 100%; background: #111; color: #fff; border: none; min-height: 100px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Начало</a>
+    <a href="manual.html">Ръководство</a>
+    <a href="bestiary.html">Бестиарий</a>
+    <a href="hero.html">Герой</a>
+</nav>
+
+<div class="hero-card">
+    <h1>ЛИСТ НА ГЕРОЯ</h1>
+    
+    <div id="setup">
+        <p>За да започнеш, използвай Таблицата със Случайни Числа (стр. 29):</p>
+        <button class="btn-action" onclick="generateHero()">ГЕНЕРИРАЙ ГЕРОЙ</button>
+    </div>
+
+    <div id="stats" style="display:none;">
+        <div class="stat-line"><span>НИВО:</span> <span id="lvl">1</span></div>
+        <div class="stat-line"><span>УДАР:</span> <span id="u">0</span></div>
+        <div class="stat-line"><span>ЗАЩИТА:</span> <span id="z">10</span></div>
+        <div class="stat-line"><span>ЖИВОТ:</span> <span id="hp">0</span></div>
+        <div class="stat-line"><span>ОПИТ (ОП):</span> <input type="number" id="exp" value="0" onchange="updateLevel()" style="width: 80px; background: #000; color: gold; border: 1px solid #444;"></div>
+        
+        <div class="inventory">
+            <strong>ИНВЕНТАР / ЗЛАТО:</strong>
+            <textarea placeholder="Напиши своите предмети тук..."></textarea>
+        </div>
+        <button class="btn-action" onclick="resetHero()">НОВ ГЕРОЙ</button>
+    </div>
+</div>
+
+<script>
+    // Масив от твоята ТСЧ (стр. 29) - извадка от числата
+    const rnt = [14, 2, 19, 5, 11, 8, 17, 3, 20, 1, 15, 6, 12, 9, 18, 4, 10, 16, 7, 13];
+
+    function generateHero() {
+        // Симулираме избор от таблицата
+        let roll = rnt[Math.floor(Math.random() * rnt.length)];
+        
+        // По твоите правила от стр. 17:
+        let hitPoints = 1;
+        if (roll >= 5 && roll <= 7) hitPoints = 2;
+        if (roll >= 8 && roll <= 10) hitPoints = 3;
+        if (roll >= 11 && roll <= 13) hitPoints = 4;
+        if (roll >= 14 && roll <= 16) hitPoints = 5;
+        if (roll >= 17 && roll <= 20) hitPoints = 6;
+
+        let def = 10; // Базова за войн
+        let life = (hitPoints + def) * 2;
+
+        document.getElementById('u').innerText = hitPoints;
+        document.getElementById('z').innerText = def;
+        document.getElementById('hp').innerText = life;
+        
+        document.getElementById('setup').style.display = 'none';
+        document.getElementById('stats').style.display = 'block';
+    }
+
+    function updateLevel() {
+        let exp = parseInt(document.getElementById('exp').value);
+        let lvl = 1;
+        if (exp >= 100) lvl = 2;
+        if (exp >= 250) lvl = 3;
+        if (exp >= 500) lvl = 4;
+        if (exp >= 1000) lvl = 5;
+        // ... добави до 20-то ниво по твоята таблица от стр. 28
+        
+        document.getElementById('lvl').innerText = lvl;
+    }
+
+    function resetHero() {
+        if(confirm("Сигурен ли си? Всички данни ще бъдат изтрити!")) {
+            document.getElementById('setup').style.display = 'block';
+            document.getElementById('stats').style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
