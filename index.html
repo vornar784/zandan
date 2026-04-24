@@ -33,6 +33,29 @@
             animation: immersion 6s ease-in forwards;
         }
 
+        /* БУТОН ЗА ПРОПУСКАНЕ */
+        #skip-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        #skip-btn:hover {
+            color: white;
+            border-color: white;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
         /* ИНТЕРФЕЙС */
         .ui-layer {
             position: relative;
@@ -47,10 +70,16 @@
             animation: showInterface 2s ease-out 6.5s forwards;
         }
 
+        /* КЛАС ЗА МОМЕНТАЛНО ПОКАЗВАНЕ (чрез JS) */
+        .ui-layer.visible {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
         #logo {
             max-width: 500px;
             width: 85%;
-            /* ПРЕМАХНАТО ХАЛО: Оставихме само инвертирането на цветовете */
             filter: invert(1); 
             margin-bottom: 20px;
         }
@@ -114,9 +143,11 @@
 </head>
 <body>
 
+    <button id="skip-btn" onclick="skipIntro()">Skip Intro</button>
+
     <div id="dungeon-intro"></div>
 
-    <div class="ui-layer">
+    <div class="ui-layer" id="main-ui">
         <img src="images/logo.png" id="logo" alt="ЗАНДАН">
         
         <div class="subtitle">Приключенска настолна игра</div>
@@ -128,6 +159,23 @@
             <a href="archive.html" class="btn btn-gold">Архив (Оригинали)</a>
         </div>
     </div>
+
+    <script>
+        function skipIntro() {
+            // Скриваме интро картинката и бутона Skip
+            document.getElementById('dungeon-intro').style.display = 'none';
+            document.getElementById('skip-btn').style.display = 'none';
+            
+            // Показваме веднага главното меню
+            const ui = document.getElementById('main-ui');
+            ui.classList.add('visible');
+        }
+
+        // Автоматично скриване на Skip бутона, когато интрото свърши само
+        setTimeout(() => {
+            document.getElementById('skip-btn').style.display = 'none';
+        }, 6500);
+    </script>
 
 </body>
 </html>
