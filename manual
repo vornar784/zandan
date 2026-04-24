@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ЗАНДАН - Ръководство</title>
+    <title>ЗАНДАН - Ръководство и Бестиарий</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
         body {
             background-color: #000;
-            color: #fff;
+            color: #ccc;
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
-            line-height: 1.6;
+            line-height: 1.8;
         }
 
-        /* НАВИГАЦИЯ - 1:1 С АРХИВА */
+        /* НАВИГАЦИЯ */
         nav {
-            background: rgba(20, 20, 20, 0.9);
+            background: rgba(20, 20, 20, 0.95);
             padding: 15px;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
             border-bottom: 1px solid #333;
             text-align: center;
         }
@@ -38,21 +38,25 @@
 
         nav a:hover, nav a.active { color: #d4af37; }
 
-        /* ПРЕВКЛЮЧВАТЕЛ НА ЕЗИЦИ */
+        /* ЕЗИКОВ ПРЕВКЛЮЧВАТЕЛ */
         .lang-switch {
-            margin: 20px 0;
-            text-align: center;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            gap: 10px;
         }
 
         .lang-btn {
-            background: #1a1a1a;
+            background: rgba(26, 26, 26, 0.8);
             color: #fff;
             border: 1px solid #444;
-            padding: 8px 20px;
+            padding: 10px 15px;
             cursor: pointer;
             text-transform: uppercase;
-            font-size: 0.7em;
-            margin: 0 5px;
+            font-size: 0.75em;
+            backdrop-filter: blur(5px);
             transition: 0.3s;
         }
 
@@ -60,45 +64,101 @@
             background: #d4af37;
             color: #000;
             border-color: #d4af37;
+            font-weight: bold;
         }
 
-        /* СТИЛ НА СТРАНИЦИТЕ С ТЕКСТ */
-        .manual-page {
-            max-width: 800px;
-            margin: 40px auto;
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-card {
             background: #0a0a0a;
             padding: 50px;
+            margin-bottom: 50px;
             border: 1px solid #1a1a1a;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
 
-        h2 {
+        h1, h2, h3 {
             font-family: 'Architects Daughter', cursive;
             color: #d4af37;
-            border-bottom: 1px solid #d4af37;
-            padding-bottom: 10px;
-            margin-top: 0;
+            text-transform: uppercase;
         }
 
-        /* ГРАФИКИ (КВАДРАТЧЕТА/КАРТИ) */
-        .map-grid {
-            display: inline-grid;
-            grid-template-columns: repeat(10, 25px); /* Може да се настройва според картата */
-            gap: 2px;
-            background: #222;
-            padding: 5px;
-            border: 1px solid #444;
+        h1 { text-align: center; font-size: 2.5em; letter-spacing: 5px; margin-bottom: 50px; }
+        h2 { border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 0; }
+
+        .story-block {
+            font-style: italic;
+            color: #999;
+            border-left: 3px solid #d4af37;
+            padding-left: 25px;
+            margin: 25px 0;
+        }
+
+        /* ТАБЛИЦИ И ГРАФИКИ */
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin: 20px 0;
+            background: #050505;
         }
 
-        .cell {
-            width: 25px;
-            height: 25px;
-            background: #000;
-            border: 1px solid #111;
+        table, th, td { border: 1px solid #222; }
+        th, td { padding: 12px; text-align: center; }
+        th { background: #111; color: #d4af37; font-size: 0.8em; }
+
+        .map-grid-placeholder {
+            background: #111;
+            border: 1px dashed #444;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            font-family: monospace;
+            color: #666;
         }
 
-        /* СКРИВАНЕ/ПОКАЗВАНЕ НА ЕЗИК */
+        /* БЕСТИАРИЙ ГРИД */
+        .monster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .monster-card {
+            background: #050505;
+            border: 1px solid #1a1a1a;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .monster-card:hover { border-color: #d4af37; }
+        .monster-card h4 { 
+            margin: 0 0 10px 0; 
+            color: #d4af37; 
+            font-family: 'Architects Daughter', cursive; 
+            border-bottom: 1px solid #222;
+        }
+
+        .m-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        .m-stat {
+            background: #151515;
+            padding: 2px 6px;
+            border: 1px solid #222;
+        }
+
+        .m-sp { font-size: 0.75em; color: #888; font-style: italic; }
+
         [lang="en"] { display: none; }
     </style>
 </head>
@@ -108,43 +168,152 @@
         <a href="index.html">Начало</a>
         <a href="hero.html">Герой</a>
         <a href="manual.html" class="active">Ръководство</a>
-        <a href="bestiary.html">Бестиарий</a>
         <a href="archive.html">Архив</a>
     </nav>
 
     <div class="lang-switch">
-        <button class="lang-btn active" onclick="setLang('bg')">Български</button>
-        <button class="lang-btn" onclick="setLang('en')">English</button>
+        <button class="lang-btn active" id="btn-bg" onclick="setLang('bg')">BG</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
     </div>
 
-    <div id="content">
-        <div class="manual-page">
-            <div class="bg-text" lang="bg">
-                <h2>Добре дошли в ЗАНДАН</h2>
-                <p>Очаквам първите 5 страници, за да ги превърна в текст...</p>
+    <div class="container">
+        
+        <div class="section-card">
+            <div lang="bg">
+                <h1>ЗАНДАН</h1>
+                <h2>ВЪВЕДЕНИЕ (ИНТРО)</h2>
+                <div class="story-block">
+                    Тъмнината беше разкъсана от две мъждукащи факли... Гилбърт и Макс, двама авантюристи, достигат до заветната стена. "Елементарна задача", казва Гилбърт, преди смъртоносна стреличка да прониже гърлото му. Изневиделица се появява демонът Езрит. "За крадците има само едно наказание — СМЪРТ!"
+                </div>
+                <p>Тази игра е смесица между ролева и настолна игра с опростени правила, създадена да се играе бързо – дори в скучните часове в училище.</p>
             </div>
-            <div class="en-text" lang="en">
-                <h2>Welcome to ZANDAN</h2>
-                <p>Waiting for the first 5 pages to convert them into text...</p>
+            <div lang="en">
+                <h1>ZANDAN</h1>
+                <h2>INTRODUCTION (INTRO)</h2>
+                <div class="story-block">
+                    The darkness was pierced by two flickering torches... Gilbert and Max, two adventurers, reach the fated wall. "An elementary task," Gilbert says, moments before a deadly dart pierces his throat. Out of nowhere, the demon Ezrit appears. "For thieves, there is only one punishment—DEATH!"
+                </div>
+                <p>This game is a mix of role-playing and board games with simplified rules, designed to be played quickly – even during boring school hours.</p>
             </div>
         </div>
+
+        <div class="section-card">
+            <div lang="bg">
+                <h2>ПРАВИЛА И ПОДГОТОВКА</h2>
+                <p>Единият играч е <strong>Господар на Подземието (ГП)</strong>, а другият е <strong>Герой</strong>.</p>
+                <h3>За ГП:</h3>
+                <ul>
+                    <li>Чертае се карта върху кариран лист.</li>
+                    <li>Поставят се чудовища, капани и съкровища.</li>
+                    <li>Дава се втора, празна карта на Героя, която той да попълва.</li>
+                </ul>
+                <h3>За Героя (Характеристики):</h3>
+                <p>Всеки герой има: <strong>Удар (У)</strong>, <strong>Защита (З)</strong>, <strong>Живот (Ж)</strong>, <strong>Късмет (К)</strong> и <strong>Опит (Оп)</strong>.</p>
+            </div>
+            <div lang="en">
+                <h2>RULES AND PREPARATION</h2>
+                <p>One player is the <strong>Dungeon Master (DM)</strong>, and the other is the <strong>Hero</strong>.</p>
+                <h3>For the DM:</h3>
+                <ul>
+                    <li>Draw a map on grid paper.</li>
+                    <li>Place monsters, traps, and treasures.</li>
+                    <li>Provide a second, blank map for the Hero to fill in.</li>
+                </ul>
+                <h3>For the Hero (Stats):</h3>
+                <p>Every hero has: <strong>Hit (H)</strong>, <strong>Defence (D)</strong>, <strong>Hit Points (HP)</strong>, <strong>Luck (L)</strong>, and <strong>Experience (Exp)</strong>.</p>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div lang="bg">
+                <h2>ВОДЕНЕ НА БОЙ</h2>
+                <p>Боят се води чрез <strong>Таблицата със Случайни Числа (ТСЧ)</strong>:</p>
+                <ol>
+                    <li>Героят избира число + добавя своя <strong>У</strong>.</li>
+                    <li>ГП избира число за чудовището + неговия <strong>У</strong>.</li>
+                    <li>По-високият резултат печели. Разликата се изважда от <strong>Ж</strong> на загубилия.</li>
+                </ol>
+            </div>
+            <div lang="en">
+                <h2>COMBAT SYSTEM</h2>
+                <p>Combat is resolved using the <strong>Random Number Table (RNT)</strong>:</p>
+                <ol>
+                    <li>The Hero picks a number + adds their <strong>H</strong>.</li>
+                    <li>The DM picks a number for the monster + its <strong>H</strong>.</li>
+                    <li>The higher total wins. The difference is subtracted from the loser's <strong>HP</strong>.</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div lang="bg">
+                <h2>ЗВЕРИЛНИК (БЕСТИАРИЙ)</h2>
+                <p>Тук са изброени някои от опасностите, дебнещи в Зандана:</p>
+                <div class="monster-grid">
+                    <div class="monster-card">
+                        <h4>Скелет</h4>
+                        <div class="m-stats">
+                            <div class="m-stat">У: 8</div><div class="m-stat">З: 8</div><div class="m-stat">Ж: 20</div>
+                        </div>
+                        <div class="m-sp">Сп: Няма</div>
+                    </div>
+                    <div class="monster-card">
+                        <h4>Орк</h4>
+                        <div class="m-stats">
+                            <div class="m-stat">У: 12</div><div class="m-stat">З: 10</div><div class="m-stat">Ж: 40</div>
+                        </div>
+                        <div class="m-sp">Сп: Ярост (+2 У)</div>
+                    </div>
+                    <div class="monster-card" style="border-color: #f00;">
+                        <h4>Езрит (Бос)</h4>
+                        <div class="m-stats">
+                            <div class="m-stat">У: 18</div><div class="m-stat">З: 15</div><div class="m-stat">Ж: 100</div>
+                        </div>
+                        <div class="m-sp">Сп: Регенерация</div>
+                    </div>
+                </div>
+            </div>
+            <div lang="en">
+                <h2>BESTIARY</h2>
+                <p>Here are some of the dangers lurking in the Dungeon:</p>
+                <div class="monster-grid">
+                    <div class="monster-card">
+                        <h4>Skeleton</h4>
+                        <div class="m-stats">
+                            <div class="m-stat">H: 8</div><div class="m-stat">D: 8</div><div class="m-stat">HP: 20</div>
+                        </div>
+                        <div class="m-sp">Sp: None</div>
+                    </div>
+                    <div class="monster-card">
+                        <h4>Orc</h4>
+                        <div class="m-stats">
+                            <div class="m-stat">H: 12</div><div class="m-stat">D: 10</div><div class="m-stat">HP: 40</div>
+                        </div>
+                        <div class="m-sp">Sp: Rage (+2 H)</div>
+                    </div>
+                    <div class="monster-card" style="border-color: #f00;">
+                        <h4>Ezrit (Boss)</h4>
+                        <div class="m-stats">
+                            <div class="m-stat)H: 18</div><div class="m-stat">D: 15</div><div class="m-stat">HP: 100</div>
+                        </div>
+                        <div class="m-sp">Sp: Regeneration</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
         function setLang(lang) {
-            document.querySelectorAll('[lang]').forEach(el => {
-                el.style.display = 'none';
-            });
-            document.querySelectorAll(`[lang="${lang}"]`).forEach(el => {
-                el.style.display = 'block';
-            });
+            document.querySelectorAll('[lang]').forEach(el => el.style.display = 'none');
+            document.querySelectorAll(`[lang="${lang}"]`).forEach(el => el.style.display = 'block');
             
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if(btn.innerText.toLowerCase().includes(lang === 'bg' ? 'бълг' : 'eng')) {
-                    btn.classList.add('active');
-                }
-            });
+            // За бестиария - картите трябва да станат flex/grid вместо block
+            document.querySelectorAll(`div[lang="${lang}"].monster-grid`).forEach(el => el.style.display = 'grid');
+
+            document.getElementById('btn-bg').classList.toggle('active', lang === 'bg');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         }
     </script>
 </body>
