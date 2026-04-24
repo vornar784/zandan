@@ -41,55 +41,84 @@
 </div>
 
 <script>
+    // 1. Списък със страниците от Бестиария (18-28)
+    const diaryPages = [];
+    for (let i = 18; i <= 28; i++) {
+        diaryPages.push(`pages/${i}.jpg`);
+    }
+
+    // 2. Списък със съществата
     const monsters = [
-        // Същества с рисунки (в папка pages/)
-        { name: "Орк", img: "pages/Orc.jpg", u: 4, z: 12, j: 40, op: 12 },
-        { name: "Трол", img: "pages/Troll.jpg", u: 6, z: 14, j: 80, op: 30 },
-        { name: "Дракон", img: "pages/Drakon.jpg", u: 12, z: 20, j: 300, op: 500 },
-        { name: "Черен Паладин", img: "pages/CherenPaladin.jpg", u: 9, z: 17, j: 150, op: 100 },
-        { name: "Мукалец", img: "pages/Mukalets.jpg", u: 5, z: 12, j: 45, op: 15 },
-        { name: "Джудже Ренегат", img: "pages/DjudjeRenegat.jpg", u: 5, z: 15, j: 50, op: 20 },
-        { name: "Токен", img: "pages/Token.jpg", u: 7, z: 14, j: 65, op: 40 },
-        { name: "Имп", img: "pages/Imp.jpg", u: 3, z: 10, j: 20, op: 8 },
-        { name: "Макрид", img: "pages/Makrid.jpg", u: 8, z: 15, j: 90, op: 60 },
-        { name: "Син Афран", img: "pages/SinAfran.jpg", u: 6, z: 13, j: 70, op: 35 },
-        
-        // Същества от тетрадката (без отделни рисунки)
-        { name: "Плъх", img: null, u: 1, z: 5, j: 5, op: 1 },
-        { name: "Гигантски плъх", img: null, u: 2, z: 8, j: 15, op: 3 },
-        { name: "Скелет", img: null, u: 3, z: 10, j: 25, op: 6 },
-        { name: "Зомби", img: null, u: 2, z: 7, j: 35, op: 8 },
-        { name: "Гоблин", img: null, u: 3, z: 11, j: 20, op: 10 },
-        { name: "Минотавър", img: null, u: 7, z: 15, j: 100, op: 50 },
-        { name: "Окото", img: null, u: 8, z: 15, j: 120, op: 70 },
-        { name: "Призрак", img: null, u: 5, z: 18, j: 60, op: 60 }
+        { name: "Плъх", page: 20, u: 1, z: 5, j: 5, op: 1 },
+        { name: "Гигантски плъх", page: 20, u: 2, z: 8, j: 15, op: 3 },
+        { name: "Мукалец", page: 21, img: "pages/Mukalets.jpg", u: 5, z: 12, j: 45, op: 15 },
+        { name: "Джудже Ренегат", page: 22, img: "pages/DjudjeRenegat.jpg", u: 5, z: 15, j: 50, op: 20 },
+        { name: "Скелет", page: 23, u: 3, z: 10, j: 25, op: 6 },
+        { name: "Зомби", page: 23, u: 2, z: 7, j: 35, op: 8 },
+        { name: "Окото", page: 24, u: 8, z: 15, j: 120, op: 70 },
+        { name: "Орк", page: 25, img: "pages/Orc.jpg", u: 4, z: 12, j: 40, op: 12 },
+        { name: "Гоблин", page: 25, u: 3, z: 11, j: 20, op: 10 },
+        { name: "Огромен Паяк", page: 26, u: 6, z: 13, j: 70, op: 45 },
+        { name: "Трол", page: 26, img: "pages/Troll.jpg", u: 6, z: 14, j: 80, op: 30 },
+        { name: "Минотавър", page: 27, u: 7, z: 15, j: 100, op: 50 },
+        { name: "Призрак", page: 27, u: 5, z: 18, j: 60, op: 60 },
+        { name: "Дракон", page: 28, img: "pages/Drakon.jpg", u: 12, z: 20, j: 300, op: 500 }
     ];
 
-    const grid = document.getElementById('monster-grid');
-
-    monsters.forEach(m => {
-        const card = document.createElement('div');
-        card.className = 'monster-card';
+    // Функция за визуализация
+    function renderBestiary() {
+        const container = document.getElementById('monster-grid');
+        container.innerHTML = '<h2>Галерия на чудовищата</h2>'; // Заглавие над мрежата
         
-        // Ако няма картинка, слагаме стилизиран текст или икона
-        const imageHtml = m.img 
-            ? `<img src="${m.img}" class="monster-img" alt="${m.name}">`
-            : `<div class="monster-img" style="display:flex; align-items:center; justify-content:center; background:#111; color:#333; font-size:3em;">?</div>`;
+        monsters.forEach(m => {
+            const card = document.createElement('div');
+            card.className = 'monster-card';
+            
+            // Използваме индивидуалната рисунка, ако я има, иначе показваме икона
+            const imageHtml = m.img 
+                ? `<img src="${m.img}" class="monster-img" alt="${m.name}">`
+                : `<div class="monster-img" style="background:#111; display:flex; align-items:center; justify-content:center; color:#444;">стр. ${m.page}</div>`;
 
-        card.innerHTML = `
-            ${imageHtml}
-            <div class="monster-info">
-                <strong class="monster-name">${m.name}</strong>
-                <div class="stats">
-                    <div class="stat-box"><span class="stat-label">У:</span>${m.u}</div>
-                    <div class="stat-box"><span class="stat-label">З:</span>${m.z}</div>
-                    <div class="stat-box"><span class="stat-label">Ж:</span>${m.j}</div>
-                    <div class="stat-box"><span class="stat-label">ОП:</span>${m.op}</div>
+            card.innerHTML = `
+                ${imageHtml}
+                <div class="monster-info">
+                    <strong class="monster-name">${m.name}</strong>
+                    <div class="stats">
+                        <div class="stat-box"><span class="stat-label">У:</span>${m.u}</div>
+                        <div class="stat-box"><span class="stat-label">З:</span>${m.z}</div>
+                        <div class="stat-box"><span class="stat-label">Ж:</span>${m.j}</div>
+                        <div class="stat-box"><span class="stat-label">ОП:</span>${m.op}</div>
+                    </div>
+                    <small style="color:#666">Виж в ръкописа: стр. ${m.page}</small>
                 </div>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
+            `;
+            container.appendChild(card);
+        });
+
+        // Добавяме секция за преглед на оригиналните страници (18-28)
+        const pagesSection = document.createElement('div');
+        pagesSection.innerHTML = '<h2 style="margin-top:50px;">Оригинални страници (18-28)</h2>';
+        pagesSection.style.width = "100%";
+        
+        const scrollBox = document.createElement('div');
+        scrollBox.style.display = "flex";
+        scrollBox.style.overflowX = "scroll";
+        scrollBox.style.gap = "15px";
+        scrollBox.style.padding = "20px 0";
+
+        diaryPages.forEach(p => {
+            const img = document.createElement('img');
+            img.src = p;
+            img.style.height = "300px";
+            img.style.border = "2px solid #444";
+            scrollBox.appendChild(img);
+        });
+
+        pagesSection.appendChild(scrollBox);
+        container.after(pagesSection);
+    }
+
+    renderBestiary();
 </script>
 
 </body>
