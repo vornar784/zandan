@@ -5,25 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ЗАНДАН - Архив</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+
         body {
             background-color: #000;
             color: #fff;
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             text-align: center;
         }
 
-        h1 {
-            color: #fff; /* Точка 1: Заглавието е в бяло */
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 30px;
+        /* ГОРНО МЕНЮ */
+        nav {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 1px solid #333;
         }
 
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+            margin: 0 15px;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: #d4af37;
+        }
+
+        .container { padding: 40px 20px; }
+
+        h1 {
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* СЕКЦИЯ PDF */
+        .pdf-download {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px dashed #d4af37;
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto 40px;
+        }
+
+        .pdf-btn {
+            display: inline-block;
+            background: #d4af37;
+            color: #000;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .pdf-btn:hover { background: #fff; }
+
+        /* ГАЛЕРИЯ */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 15px;
             max-width: 1200px;
             margin: 0 auto;
@@ -31,106 +82,104 @@
 
         .thumbnail {
             width: 100%;
+            aspect-ratio: 1 / 1.4;
+            object-fit: cover;
             cursor: pointer;
-            border: 1px solid #333;
-            transition: transform 0.3s, border-color 0.3s;
+            border: 1px solid #222;
+            transition: 0.3s;
         }
 
         .thumbnail:hover {
-            transform: scale(1.05);
             border-color: #d4af37;
+            transform: translateY(-5px);
         }
 
-        /* МОДАЛЕН ПРОЗОРЕЦ (Приближаване) */
+        /* VIEWER */
         #viewer {
-            display: none; /* Скрит по подразбиране */
+            display: none;
             position: fixed;
-            z-index: 100;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
         }
 
         #viewer-img {
-            max-width: 85%;
-            max-height: 85%;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            border: 2px solid #444;
+            max-width: 90%;
+            max-height: 90%;
+            border: 1px solid #444;
         }
 
-        /* Бутони за навигация */
         .nav-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.1);
-            color: white;
+            background: none;
+            color: #fff;
             border: none;
-            font-size: 3em;
-            padding: 20px;
+            font-size: 4em;
             cursor: pointer;
-            transition: 0.3s;
-            user-select: none;
+            padding: 20px;
+            opacity: 0.5;
         }
 
-        .nav-btn:hover { background: rgba(255,255,255,0.2); }
-        .nav-btn:disabled { opacity: 0; cursor: default; }
-
-        #prev-btn { left: 2%; }
-        #next-btn { right: 2%; }
-
-        .close-area {
+        .nav-btn:hover { opacity: 1; color: #d4af37; }
+        #prev-btn { left: 10px; }
+        #next-btn { right: 10px; }
+        
+        .close-overlay {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             z-index: -1;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 40px;
-            color: #d4af37;
-            text-decoration: none;
-            border: 1px solid #d4af37;
-            padding: 10px 20px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Оригинали</h1>
+    <nav>
+        <a href="index.html">Начало</a>
+        <a href="hero.html">Герой</a>
+        <a href="manual.html">Ръководство</a>
+        <a href="bestiary.html">Бестиарий</a>
+        <a href="archive.html" class="active">Архив</a>
+    </nav>
 
-    <div class="gallery" id="gallery">
-        <script>
-            const gallery = document.getElementById('gallery');
-            for (let i = 1; i <= 30; i++) {
-                const img = document.createElement('img');
-                img.src = `images/${i}.jpg`; // Провери дали файловете са точно .jpg или .png
-                img.className = 'thumbnail';
-                img.onclick = () => openViewer(i);
-                gallery.appendChild(img);
-            }
-        </script>
+    <div class="container">
+        <h1>Оригинали</h1>
+
+        <div class="pdf-download">
+            <p>Пълно ръководство в един файл:</p>
+            <a href="Zandan_Manual.pdf" class="pdf-btn" download>ИЗТЕГЛИ PDF (30 СТР.)</a>
+        </div>
+
+        <div class="gallery" id="gallery">
+            </div>
     </div>
 
-    <a href="index.html" class="back-link">← Назад към Начало</a>
-
     <div id="viewer">
-        <div class="close-area" onclick="closeViewer()"></div>
+        <div class="close-overlay" onclick="closeViewer()"></div>
         <button id="prev-btn" class="nav-btn" onclick="changeImage(-1)">&#10094;</button>
-        <img id="viewer-img" src="" alt="Страница от Зандан">
+        <img id="viewer-img" src="">
         <button id="next-btn" class="nav-btn" onclick="changeImage(1)">&#10095;</button>
     </div>
 
     <script>
-        let currentIdx = 1;
-        const totalImages = 30;
+        const gallery = document.getElementById('gallery');
         const viewer = document.getElementById('viewer');
         const viewerImg = document.getElementById('viewer-img');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
+        let currentIdx = 1;
+        const totalImages = 30;
+
+        // Генериране на малките картинки (от root)
+        for (let i = 1; i <= totalImages; i++) {
+            const img = document.createElement('img');
+            img.src = `${i}.jpg`; // Картинките са в root
+            img.className = 'thumbnail';
+            img.onclick = () => openViewer(i);
+            gallery.appendChild(img);
+        }
 
         function openViewer(index) {
             currentIdx = index;
@@ -142,22 +191,20 @@
             viewer.style.display = 'none';
         }
 
-        function changeImage(step) {
-            let newIdx = currentIdx + step;
-            if (newIdx >= 1 && newIdx <= totalImages) {
-                currentIdx = newIdx;
-                updateViewer();
-            }
-        }
-
         function updateViewer() {
-            viewerImg.src = `images/${currentIdx}.jpg`;
-            // Управление на видимостта на бутоните
-            prevBtn.disabled = (currentIdx === 1);
-            nextBtn.disabled = (currentIdx === totalImages);
+            viewerImg.src = `${currentIdx}.jpg`;
+            document.getElementById('prev-btn').style.visibility = (currentIdx === 1) ? 'hidden' : 'visible';
+            document.getElementById('next-btn').style.visibility = (currentIdx === totalImages) ? 'hidden' : 'visible';
         }
 
-        // Клавиатура (Стрелки)
+        function changeImage(step) {
+            currentIdx += step;
+            if (currentIdx < 1) currentIdx = 1;
+            if (currentIdx > totalImages) currentIdx = totalImages;
+            updateViewer();
+        }
+
+        // Клавиатура
         window.addEventListener('keydown', (e) => {
             if (viewer.style.display === 'flex') {
                 if (e.key === 'ArrowLeft') changeImage(-1);
@@ -166,6 +213,5 @@
             }
         });
     </script>
-
 </body>
 </html>
